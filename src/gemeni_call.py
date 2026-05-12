@@ -5,10 +5,11 @@ gemeni_call.py
 Extrage orarul dintr-o imagine folosind Gemini si adauga rezultatul intr-un JSON.
 
 Imbunatatiri:
-  - "memorie de sesiune": modelele care esueaza repetat (>=2 ori 503) sunt
-    marcate dead si sarite pentru tot restul rularii
-  - retry mai scurt pe 503 (max 2 incercari, delay 2s/4s)
-  - functia process_image() reutilizabila
+  - thinking mode dezactivat (thinking_budget=0) → toti tokens merg in output
+  - max_output_tokens ridicat la 16384 pentru pagini dense
+  - retry pe JSON incomplet/invalid (acelasi model, apoi fallback)
+  - "memorie de sesiune": modelele care esueaza repetat sunt sarite
+  - raspunsuri brute salvate in _failed_responses/ cand JSON e irecuperabil
 
 Utilizare CLI:
     python gemeni_call.py <imagine> <json_output> [--model M] [--debug]
@@ -67,6 +68,12 @@ DEAD_MODEL_THRESHOLD = 2
 # parametri retry pentru 5xx (mai scurt decat inainte)
 MAX_RETRIES_5XX = 2
 RETRY_DELAYS_5XX = [2, 4]  # secunde
+
+# ── FIX: retry pe JSON incomplet (acelasi model, apoi urmatorul) ──
+MAX_RETRIES_JSON = 2
+
+# ── FIX: folder debug pentru raspunsuri trunchiate ──
+DEBUG_DIR = Path("data/outputs/_failed_responses")
 
 # ────────────────────────────── PROMPT ────────────────────────────────────────
 
@@ -159,8 +166,9 @@ FORMATUL EXACT AL JSON-ULUI DE OUTPUT:
   "Vineri":   [ ... ]
 }
 
-Returneaza STRICT obiectul JSON. NU folosi markdown ```json. NU adauga explicatii.
-Raspunsul tau trebuie sa inceapa cu { si sa se termine cu }.
+Returneaza STRICT obiectul JSON, COMPLET, terminat cu }.
+NU folosi markdown ```json. NU adauga explicatii.
+Fii concis - nu adauga campuri suplimentare. Raspunsul incepe cu { si se termina cu }.
 """
 
 
@@ -180,6 +188,49 @@ def get_api_key() -> str:
 def parse_retry_delay(err_message: str):
     m = re.search(r"retry in ([\d.]+)s", err_message)
     return float(m.group(1)) if m else None
+
+
+# ── FIX: config cu thinking dezactivat ────────────────────────────────────────
+
+
+def build_config():
+    """
+    Config Gemini cu thinking dezactivat si max_output_tokens marit.
+    thinking_budget=0 → modelul NU mai consuma tokens pe gandire interna,
+    toti cei 16384 tokens merg direct in JSON output.
+    """
+    cfg = types.GenerateContentConfig(
+        temperature=0.0,
+        top_p=0.95,
+        max_output_tokens=16384,           # FIX: era 8192
+        response_mime_type="application/json",
+    )
+    # FIX: dezactiveaza thinking mode pe modelele 2.5
+    try:
+        cfg.thinking_config = types.ThinkingConfig(thinking_budget=0)
+    except (AttributeError, TypeError):
+        pass  # SDK vechi fara suport thinking_config — ok, ignora
+    return cfg
+
+
+# ── FIX: salveaza raspunsuri brute pentru diagnoza ────────────────────────────
+
+
+def save_failed_response(image_name: str, model_name: str, raw_text: str,
+                         error: str) -> Path:
+    """Salveaza raspunsul brut in DEBUG_DIR pentru diagnoza ulterioara."""
+    DEBUG_DIR.mkdir(parents=True, exist_ok=True)
+    ts = time.strftime("%Y%m%d_%H%M%S")
+    debug_file = DEBUG_DIR / f"{image_name}_{model_name}_{ts}.txt"
+    debug_file.write_text(
+        f"# image: {image_name}\n"
+        f"# model: {model_name}\n"
+        f"# error: {error}\n"
+        f"# length: {len(raw_text)} chars\n"
+        f"# ----- raw response -----\n{raw_text}",
+        encoding="utf-8",
+    )
+    return debug_file
 
 
 # ────────────────────────────── GeminiSession ─────────────────────────────────
@@ -223,19 +274,19 @@ def call_gemini_with_retry(
     models: list[str],
     verbose: bool = True,
 ):
-    """Returneaza (raspuns_text, model_folosit). Sare peste modelele dead."""
+    """
+    Returneaza (entry_dict, model_folosit).
+    Sare peste modelele dead.
+    Retry pe HTTP errors (5xx/429) SI pe JSON incomplet.
+    """
     if not image_path.exists():
         raise FileNotFoundError(f"Imaginea nu exista: {image_path}")
 
     img = Image.open(image_path)
-    config = types.GenerateContentConfig(
-        temperature=0.0,
-        top_p=0.95,
-        max_output_tokens=8192,
-        response_mime_type="application/json",
-    )
+    config = build_config()                # FIX: thinking dezactivat + 16384 tokens
 
     last_error = None
+    last_raw = ""
 
     for model_name in models:
         # sari peste modelele moarte in aceasta sesiune
@@ -247,15 +298,53 @@ def call_gemini_with_retry(
         if verbose:
             print(f"  → model: {model_name}", file=sys.stderr)
 
-        for attempt in range(1, MAX_RETRIES_5XX + 1):
+        # ── retry pe erori HTTP (5xx / 429) ──
+        api_attempt = 0
+        while api_attempt < MAX_RETRIES_5XX:
+            api_attempt += 1
             try:
                 response = session.client.models.generate_content(
                     model=model_name,
                     contents=[PROMPT, img],
                     config=config,
                 )
-                session.mark_success(model_name)
-                return response.text, model_name
+                raw_text = response.text or ""
+                last_raw = raw_text
+
+                # ── FIX: retry pe JSON invalid/incomplet (acelasi model) ──
+                json_attempt = 0
+                while json_attempt < MAX_RETRIES_JSON:
+                    json_attempt += 1
+                    try:
+                        entry = extract_json(raw_text)
+                        session.mark_success(model_name)
+                        return entry, model_name
+                    except (ValueError, json.JSONDecodeError) as je:
+                        last_error = je
+                        if verbose:
+                            print(f"    ⚠ JSON invalid ({json_attempt}/{MAX_RETRIES_JSON}): "
+                                  f"{je} (len={len(raw_text)})",
+                                  file=sys.stderr)
+                        if json_attempt >= MAX_RETRIES_JSON:
+                            # salveaza raspunsul brut pentru diagnoza
+                            dbg = save_failed_response(
+                                image_path.name, model_name, raw_text, str(je)
+                            )
+                            if verbose:
+                                print(f"    → raspuns brut salvat: {dbg}", file=sys.stderr)
+                            break
+                        # retry cu acelasi model (poate da output complet)
+                        time.sleep(1)
+                        response = session.client.models.generate_content(
+                            model=model_name,
+                            contents=[PROMPT, img],
+                            config=config,
+                        )
+                        raw_text = response.text or ""
+                        last_raw = raw_text
+
+                # daca am iesit din loop-ul JSON fara return → trecem la urmatorul model
+                break
 
             except ClientError as e:
                 last_error = e
@@ -268,10 +357,18 @@ def call_gemini_with_retry(
                                   file=sys.stderr)
                         session.dead_models.add(model_name)  # quota 0 = dead permanent
                         break
-                    delay = parse_retry_delay(msg) or RETRY_DELAYS_5XX[attempt - 1]
-                    delay = min(delay, 60)
+                    delay = parse_retry_delay(msg) or RETRY_DELAYS_5XX[api_attempt - 1]
+                    delay = min(delay, 30)
+                    # daca delay e mare → probabil quota zilnica epuizata
+                    if delay > 25:
+                        if verbose:
+                            print(f"    ✗ 429 cu delay mare ({delay:.0f}s) "
+                                  f"→ probabil quota zilnica, marchez dead",
+                                  file=sys.stderr)
+                        session.dead_models.add(model_name)
+                        break
                     if verbose:
-                        print(f"    ⏳ 429 ({attempt}/{MAX_RETRIES_5XX}), astept {delay:.1f}s",
+                        print(f"    ⏳ 429 ({api_attempt}/{MAX_RETRIES_5XX}), astept {delay:.1f}s",
                               file=sys.stderr)
                     time.sleep(delay)
                     continue
@@ -282,10 +379,10 @@ def call_gemini_with_retry(
 
             except ServerError as e:
                 last_error = e
-                if attempt < MAX_RETRIES_5XX:
-                    delay = RETRY_DELAYS_5XX[attempt - 1]
+                if api_attempt < MAX_RETRIES_5XX:
+                    delay = RETRY_DELAYS_5XX[api_attempt - 1]
                     if verbose:
-                        print(f"    ⏳ 5xx ({attempt}/{MAX_RETRIES_5XX}), astept {delay}s",
+                        print(f"    ⏳ 5xx ({api_attempt}/{MAX_RETRIES_5XX}), astept {delay}s",
                               file=sys.stderr)
                     time.sleep(delay)
                     continue
@@ -357,7 +454,7 @@ def append_to_json_file(json_path: Path, entry: dict) -> str:
             print(f"Avertisment: {json_path} corupt ({e}). Suprascriu.", file=sys.stderr)
             existing = []
 
-    # cheia de identificare: grupa + _source (ca paginile goale sa nu se ciocneasca)
+    # cheia de identificare: _source (numele imaginii) sau grupa
     grupa = entry.get("grupa", "").strip()
     source = entry.get("_source", "").strip()
     replaced = False
@@ -365,9 +462,9 @@ def append_to_json_file(json_path: Path, entry: dict) -> str:
     for i, item in enumerate(existing):
         if not isinstance(item, dict):
             continue
-        same_grupa = grupa and item.get("grupa", "").strip() == grupa
         same_source = source and item.get("_source", "").strip() == source
-        if same_grupa or same_source:
+        same_grupa = grupa and item.get("grupa", "").strip() == grupa
+        if same_source or (same_grupa and not item.get("_source")):
             existing[i] = entry
             replaced = True
             break
@@ -402,9 +499,10 @@ def process_image(
                 "Restart sau astepta cateva minute."
             )
 
-    raw, model_used = call_gemini_with_retry(session, image_path, models, verbose=verbose)
+    entry, model_used = call_gemini_with_retry(
+        session, image_path, models, verbose=verbose
+    )
 
-    entry = extract_json(raw)
     entry = normalize_entry(entry)
     entry["_model"] = model_used
     entry["_source"] = image_path.name

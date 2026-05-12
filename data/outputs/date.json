@@ -9852,5 +9852,2902 @@
     ],
     "_model": "gemini-flash-latest",
     "_source": "pag_54.png"
+  },
+  {
+    "grupa": "INFO Grupa 231",
+    "Luni": [
+      {
+        "ore": "12-14",
+        "profesor": "Chirita CE",
+        "materie": "FunLbProgr",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Cheval H",
+        "materie": "FunLbProgr",
+        "tip": "sem+Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "L-511"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Creanga C",
+        "materie": "ReteleCalc",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "L-404"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Cernat A",
+        "materie": "ProgrAvObjJava",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "L-404"
+      }
+    ],
+    "Marti": [
+      {
+        "ore": "10-12",
+        "profesor": "Stefanescu A",
+        "materie": "MetDezvSoft",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Popescu S",
+        "materie": "AlgAvans",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 1-7",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Stupariu S",
+        "materie": "AlgAvans",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 8-14",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "14-15",
+        "profesor": "Majeri G",
+        "materie": "AlgAvans",
+        "tip": "Lab",
+        "frecventa": "SI",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L.410"
+      },
+      {
+        "ore": "15-16",
+        "profesor": "Majeri G",
+        "materie": "AlgAvans",
+        "tip": "Lab",
+        "frecventa": "SP",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L.410"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Poschina IM",
+        "materie": "IA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 8-14",
+        "semigrupa": "Gr_1",
+        "sala": "L.506"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Poschina IM",
+        "materie": "IA",
+        "tip": "sem",
+        "frecventa": "SP",
+        "saptamani": "sapt 8-14",
+        "semigrupa": "",
+        "sala": "S.211"
+      }
+    ],
+    "Miercuri": [
+      {
+        "ore": "10-12",
+        "profesor": "Boriga R",
+        "materie": "ProgrAvObjJava",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Ionescu R",
+        "materie": "IA",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 8-14",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Alexe B",
+        "materie": "IA",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 1-7",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Apostu R",
+        "materie": "MetDezvSoft",
+        "tip": "Lab",
+        "frecventa": "SI",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "L-404"
+      }
+    ],
+    "Joi": [
+      {
+        "ore": "12-14",
+        "profesor": "Majeri G",
+        "materie": "AlgAvans",
+        "tip": "seminar",
+        "frecventa": "SI",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "S.107"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Nisioi S",
+        "materie": "ReteleCalc",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Ciocan I",
+        "materie": "IA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 1-7",
+        "semigrupa": "Gr_1",
+        "sala": ""
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Poschina IM",
+        "materie": "IA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 8-14",
+        "semigrupa": "Gr_2",
+        "sala": "L.410"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Ciocan I",
+        "materie": "IA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 1-7",
+        "semigrupa": "Gr_2",
+        "sala": ""
+      }
+    ],
+    "Vineri": [
+      {
+        "ore": "12-14",
+        "profesor": "Ciocan I",
+        "materie": "IA",
+        "tip": "sem",
+        "frecventa": "SP",
+        "saptamani": "sapt 1-7",
+        "semigrupa": "",
+        "sala": ""
+      }
+    ],
+    "_model": "gemini-flash-latest",
+    "_source": "pag_32.png"
+  },
+  {
+    "grupa": "INFO Grupa 233",
+    "Luni": [
+      {
+        "ore": "8-10",
+        "profesor": "Voicu S",
+        "materie": "IA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 1-7",
+        "semigrupa": "Gr_1",
+        "sala": ""
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Chirita CE",
+        "materie": "FunLbProgr",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Grigore DN",
+        "materie": "IA",
+        "tip": "sem",
+        "frecventa": "SP",
+        "saptamani": "sapt 8-14",
+        "semigrupa": "",
+        "sala": "S.211"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Grigore DN",
+        "materie": "IA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 8-14",
+        "semigrupa": "Gr_2",
+        "sala": "L.506"
+      }
+    ],
+    "Marti": [
+      {
+        "ore": "10-12",
+        "profesor": "Stefanescu A",
+        "materie": "MetDezvSoft",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Popescu S",
+        "materie": "AlgAvans",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 1-7",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Stupariu S",
+        "materie": "AlgAvans",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 8-14",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Mocanu S",
+        "materie": "FunLbProgr",
+        "tip": "sem+Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "L-511"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Deaconu E",
+        "materie": "ProgrAvObjJava",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "L-507"
+      }
+    ],
+    "Miercuri": [
+      {
+        "ore": "10-12",
+        "profesor": "Boriga R",
+        "materie": "ProgrAvObjJava",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Ionescu R",
+        "materie": "IA",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 8-14",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Alexe B",
+        "materie": "IA",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 1-7",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "14-15",
+        "profesor": "Ilie D",
+        "materie": "AlgAvans",
+        "tip": "Lab",
+        "frecventa": "SI",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L.413"
+      },
+      {
+        "ore": "15-16",
+        "profesor": "Ilie D",
+        "materie": "AlgAvans",
+        "tip": "Lab",
+        "frecventa": "SP",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L.413"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Ilie D",
+        "materie": "AlgAvans",
+        "tip": "sem",
+        "frecventa": "SP",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "S.211"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Apostu R",
+        "materie": "MetDezvSoft",
+        "tip": "Lab",
+        "frecventa": "SI",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "L-404"
+      }
+    ],
+    "Joi": [
+      {
+        "ore": "8-10",
+        "profesor": "Voicu S",
+        "materie": "IA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 1-7",
+        "semigrupa": "Gr_2",
+        "sala": ""
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Creanga C",
+        "materie": "ReteleCalc",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "L-402"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Nisioi S",
+        "materie": "ReteleCalc",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Grigore DN",
+        "materie": "IA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 8-14",
+        "semigrupa": "Gr_1",
+        "sala": "L-401"
+      }
+    ],
+    "Vineri": [
+      {
+        "ore": "8-10",
+        "profesor": "Voicu S",
+        "materie": "IA",
+        "tip": "sem",
+        "frecventa": "SP",
+        "saptamani": "sapt 1-7",
+        "semigrupa": "",
+        "sala": ""
+      }
+    ],
+    "_model": "gemini-flash-latest",
+    "_source": "pag_34.png"
+  },
+  {
+    "grupa": "INFO Grupa 234",
+    "Luni": [
+      {
+        "ore": "8-10",
+        "profesor": "Deaconu E",
+        "materie": "ProgrAvObjJava",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "L-507"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Chirita CE",
+        "materie": "FunLbProgr",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Creanga C",
+        "materie": "ReteleCalc",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "L-404"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Miclaus A",
+        "materie": "AlgAvans",
+        "tip": "sem",
+        "frecventa": "SP",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "S.210"
+      }
+    ],
+    "Marti": [
+      {
+        "ore": "8-10",
+        "profesor": "Hondru V",
+        "materie": "IA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 8-14",
+        "semigrupa": "Gr_1",
+        "sala": "L.411"
+      },
+      {
+        "ore": "10-12",
+        "profesor": "Stefanescu A",
+        "materie": "MetDezvSoft",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Popescu S",
+        "materie": "AlgAvans",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 1-7",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Stupariu S",
+        "materie": "AlgAvans",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 8-14",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "14-15",
+        "profesor": "Zavelca M",
+        "materie": "IA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 1-7",
+        "semigrupa": "Gr_1",
+        "sala": ""
+      },
+      {
+        "ore": "15-16",
+        "profesor": "Costache AV",
+        "materie": "IA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 8-14",
+        "semigrupa": "Gr_2",
+        "sala": "L.411"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Zavelca M",
+        "materie": "IA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 1-7",
+        "semigrupa": "Gr_2",
+        "sala": ""
+      }
+    ],
+    "Miercuri": [
+      {
+        "ore": "10-12",
+        "profesor": "Boriga R",
+        "materie": "ProgrAvObjJava",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Ionescu R",
+        "materie": "IA",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 8-14",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Alexe B",
+        "materie": "IA",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 1-7",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Oltean A",
+        "materie": "FunLbProgr",
+        "tip": "sem+Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "L-508"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Apostu R",
+        "materie": "MetDezvSoft",
+        "tip": "Lab",
+        "frecventa": "SP",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "L-404"
+      }
+    ],
+    "Joi": [
+      {
+        "ore": "12-14",
+        "profesor": "Zavelca M",
+        "materie": "IA",
+        "tip": "sem",
+        "frecventa": "SP",
+        "saptamani": "sapt 1-7",
+        "semigrupa": "",
+        "sala": ""
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Nisioi S",
+        "materie": "ReteleCalc",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "16-17",
+        "profesor": "Miclaus A",
+        "materie": "AlgAvans",
+        "tip": "Lab",
+        "frecventa": "SI",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L.411"
+      },
+      {
+        "ore": "17-18",
+        "profesor": "Miclaus A",
+        "materie": "AlgAvans",
+        "tip": "Lab",
+        "frecventa": "SP",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L.411"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Gheorghe S",
+        "materie": "IA",
+        "tip": "sem",
+        "frecventa": "SP",
+        "saptamani": "sapt 8-14",
+        "semigrupa": "",
+        "sala": "S-512"
+      }
+    ],
+    "Vineri": [],
+    "_model": "gemini-flash-latest",
+    "_source": "pag_35.png"
+  },
+  {
+    "grupa": "INFO Grupa 244",
+    "Luni": [
+      {
+        "ore": "8-10",
+        "profesor": "Hondru V",
+        "materie": "IA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 1-7",
+        "semigrupa": "Gr_1",
+        "sala": ""
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Popescu S",
+        "materie": "AlgAvans",
+        "tip": "sem",
+        "frecventa": "SP",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "S.209"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Sipos A",
+        "materie": "FunLbProgr",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Cheval H",
+        "materie": "FunLbProgr",
+        "tip": "sem+Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "L-511"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Bouruc L",
+        "materie": "MetDezvSoft",
+        "tip": "Lab",
+        "frecventa": "SI",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "L-511"
+      }
+    ],
+    "Marti": [
+      {
+        "ore": "8-10",
+        "profesor": "Hondru V",
+        "materie": "IA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 1-7",
+        "semigrupa": "Gr_2",
+        "sala": ""
+      },
+      {
+        "ore": "10-12",
+        "profesor": "Popescu S",
+        "materie": "AlgAvans",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 1-7",
+        "semigrupa": "",
+        "sala": "Amf.701"
+      },
+      {
+        "ore": "10-12",
+        "profesor": "Stupariu S",
+        "materie": "AlgAvans",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 8-14",
+        "semigrupa": "",
+        "sala": "Amf.701"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Stefanescu A",
+        "materie": "MetDezvSoft",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.701"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Zavelca M",
+        "materie": "IA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 8-14",
+        "semigrupa": "Gr_1",
+        "sala": "L.413"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Hondru V",
+        "materie": "IA",
+        "tip": "sem",
+        "frecventa": "SI",
+        "saptamani": "sapt 1-7",
+        "semigrupa": "",
+        "sala": ""
+      }
+    ],
+    "Miercuri": [
+      {
+        "ore": "8-9",
+        "profesor": "Popescu S",
+        "materie": "AlgAvans",
+        "tip": "Lab",
+        "frecventa": "SI",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L.410"
+      },
+      {
+        "ore": "9-10",
+        "profesor": "Popescu S",
+        "materie": "AlgAvans",
+        "tip": "Lab",
+        "frecventa": "SP",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L.410"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Nisioi S",
+        "materie": "ReteleCalc",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.701"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Ionescu R",
+        "materie": "IA",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 1-7",
+        "semigrupa": "",
+        "sala": "Amf.701"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Alexe B",
+        "materie": "IA",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 8-14",
+        "semigrupa": "",
+        "sala": "Amf.701"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Zavelca M",
+        "materie": "IA",
+        "tip": "sem",
+        "frecventa": "SI",
+        "saptamani": "sapt 8-14",
+        "semigrupa": "",
+        "sala": "S.111"
+      }
+    ],
+    "Joi": [
+      {
+        "ore": "12-14",
+        "profesor": "Boriga R",
+        "materie": "ProgrAvObjJava",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.701"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Ionete A",
+        "materie": "ReteleCalc",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "L-404"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Grosu A",
+        "materie": "ProgrAvObjJava",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "L-509"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Zavelca M",
+        "materie": "IA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 8-14",
+        "semigrupa": "Gr_2",
+        "sala": "L-508"
+      }
+    ],
+    "Vineri": [],
+    "_model": "gemini-flash-latest",
+    "_source": "pag_39.png"
+  },
+  {
+    "grupa": "INFO Grupa 251",
+    "Luni": [
+      {
+        "ore": "12-14",
+        "profesor": "Sipos A",
+        "materie": "FunLbProgr",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "S-214"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Ionete A",
+        "materie": "ReteleCalc",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "L-507"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Sipos A",
+        "materie": "FunLbProgr",
+        "tip": "sem+Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "L-507"
+      }
+    ],
+    "Marti": [
+      {
+        "ore": "8-10",
+        "profesor": "Miclaus A",
+        "materie": "AlgAvans",
+        "tip": "Lab",
+        "frecventa": "SP",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L.410"
+      },
+      {
+        "ore": "10-12",
+        "profesor": "Miclaus A",
+        "materie": "AlgAvans",
+        "tip": "Lab",
+        "frecventa": "SP",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L.410"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Stefanescu A",
+        "materie": "MetDezvSoft",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.701"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Popescu S",
+        "materie": "AlgAvans",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 1-7",
+        "semigrupa": "",
+        "sala": "S-512"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Stupariu S",
+        "materie": "AlgAvans",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 8-14",
+        "semigrupa": "",
+        "sala": "S-512"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Gheorghe S",
+        "materie": "IA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 8-14",
+        "semigrupa": "Gr_1",
+        "sala": "L.413"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Zavelca M",
+        "materie": "IA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 1-7",
+        "semigrupa": "Gr_2",
+        "sala": ""
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Coman T",
+        "materie": "MetDezvSoft",
+        "tip": "Lab",
+        "frecventa": "SI",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "L-202"
+      }
+    ],
+    "Miercuri": [
+      {
+        "ore": "12-14",
+        "profesor": "Nisioi S",
+        "materie": "ReteleCalc",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.701"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Alexe B",
+        "materie": "IA",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 1-7",
+        "semigrupa": "",
+        "sala": "S-415"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Ionescu R",
+        "materie": "IA",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 8-14",
+        "semigrupa": "",
+        "sala": "S-415"
+      },
+      {
+        "ore": "16-17",
+        "profesor": "Gheorghe S",
+        "materie": "IA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 8-14",
+        "semigrupa": "Gr_2",
+        "sala": "L.410"
+      },
+      {
+        "ore": "16-17",
+        "profesor": "Zavelca M",
+        "materie": "IA",
+        "tip": "sem",
+        "frecventa": "SI",
+        "saptamani": "sapt 1-7",
+        "semigrupa": "",
+        "sala": ""
+      },
+      {
+        "ore": "17-18",
+        "profesor": "Gheorghe S",
+        "materie": "IA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 8-14",
+        "semigrupa": "Gr_2",
+        "sala": "L.410"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Ciocan A",
+        "materie": "ProgrAvObjJava",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "L-402"
+      }
+    ],
+    "Joi": [
+      {
+        "ore": "10-12",
+        "profesor": "Miclaus A",
+        "materie": "AlgAvans",
+        "tip": "sem",
+        "frecventa": "SI",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "S.102"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Boriga R",
+        "materie": "ProgrAvObjJava",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.701"
+      },
+      {
+        "ore": "14-15",
+        "profesor": "Zavelca M",
+        "materie": "IA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 1-7",
+        "semigrupa": "Gr_1",
+        "sala": ""
+      },
+      {
+        "ore": "15-16",
+        "profesor": "Gheorghe S",
+        "materie": "IA",
+        "tip": "sem",
+        "frecventa": "SP",
+        "saptamani": "sapt 8-14",
+        "semigrupa": "",
+        "sala": "S.210"
+      },
+      {
+        "ore": "15-16",
+        "profesor": "Zavelca M",
+        "materie": "IA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 1-7",
+        "semigrupa": "Gr_1",
+        "sala": ""
+      }
+    ],
+    "Vineri": [],
+    "_model": "gemini-flash-latest",
+    "_source": "pag_40.png"
+  },
+  {
+    "grupa": "Optionale an III - MATE-INFO (Informatica)",
+    "Luni": [
+      {
+        "ore": "8-10",
+        "profesor": "industrie",
+        "materie": "ProdEngin (*)",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "10-12",
+        "profesor": "Iova A",
+        "materie": "MetFormIngSoft",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-106"
+      },
+      {
+        "ore": "10-12",
+        "profesor": "Chirita CE",
+        "materie": "TehNewMedia",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "S-214"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Iova A",
+        "materie": "MetFormIngSoft",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-106"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Predut S",
+        "materie": "TestSistSoft",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.501"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Dinu L",
+        "materie": "IntrPrelLbNat",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.503"
+      },
+      {
+        "ore": "14-15",
+        "profesor": "Predut S",
+        "materie": "TestSistSoft",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-508"
+      },
+      {
+        "ore": "15-16",
+        "profesor": "Predut S",
+        "materie": "TestSistSoft",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-508"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Patrascu A",
+        "materie": "TehOptimizare",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "S-214"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Patrascu A",
+        "materie": "TehOptimizare",
+        "tip": "sem",
+        "frecventa": "SI",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "S-214"
+      },
+      {
+        "ore": "18-19",
+        "profesor": "Macovei B",
+        "materie": "ESLA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 5-7",
+        "semigrupa": "Gr_2",
+        "sala": "L.410"
+      },
+      {
+        "ore": "18-19",
+        "profesor": "Oproiu M",
+        "materie": "TehOptimizare",
+        "tip": "Lab",
+        "frecventa": "SP",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-511"
+      },
+      {
+        "ore": "19-20",
+        "profesor": "Macovei B",
+        "materie": "ESLA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 5-7",
+        "semigrupa": "Gr_2",
+        "sala": "L.410"
+      }
+    ],
+    "Marti": [
+      {
+        "ore": "8-10",
+        "profesor": "industrie",
+        "materie": "ProdEngin (*)",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_3",
+        "sala": "L-509"
+      },
+      {
+        "ore": "8-10",
+        "profesor": "Mihailescu M",
+        "materie": "DezvAplSoftSec",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.501"
+      },
+      {
+        "ore": "10-12",
+        "profesor": "Mihailescu M",
+        "materie": "DezvAplSoftSec",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-509"
+      },
+      {
+        "ore": "10-12",
+        "profesor": "industrie",
+        "materie": "ProdEngin (*)",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_4",
+        "sala": "L-404"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Georgescu Gi",
+        "materie": "FunProiCompil",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "S-214"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Chirita CE",
+        "materie": "TehNewMedia",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-401"
+      },
+      {
+        "ore": "14-15",
+        "profesor": "Georgescu Gi",
+        "materie": "FunProiCompil",
+        "tip": "sem",
+        "frecventa": "SI",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "S.213"
+      },
+      {
+        "ore": "14-15",
+        "profesor": "Chirita CE",
+        "materie": "TehNewMedia",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-401"
+      },
+      {
+        "ore": "15-16",
+        "profesor": "Georgescu Gi",
+        "materie": "FunProiCompil",
+        "tip": "sem",
+        "frecventa": "SP",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "S.213"
+      },
+      {
+        "ore": "15-16",
+        "profesor": "Chirita CE",
+        "materie": "TehNewMedia",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-401"
+      },
+      {
+        "ore": "16-17",
+        "profesor": "Ipate F",
+        "materie": "MetFormIngSoft",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "16-17",
+        "profesor": "Georgescu Gi",
+        "materie": "FunProiCompil",
+        "tip": "Lab",
+        "frecventa": "SI",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-507"
+      },
+      {
+        "ore": "17-18",
+        "profesor": "Georgescu Gi",
+        "materie": "FunProiCompil",
+        "tip": "Lab",
+        "frecventa": "SP",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-507"
+      },
+      {
+        "ore": "17-18",
+        "profesor": "Ipate F",
+        "materie": "MetFormIngSoft",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Gheorghe S",
+        "materie": "StratPlanEchRobo",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-404"
+      }
+    ],
+    "Miercuri": [
+      {
+        "ore": "8-10",
+        "profesor": "Prunescu M",
+        "materie": "ProtoCripto",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.501"
+      },
+      {
+        "ore": "8-10",
+        "profesor": "industrie",
+        "materie": "ProdEngin (*)",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-404"
+      },
+      {
+        "ore": "10-11",
+        "profesor": "industrie",
+        "materie": "ProdEngin (*)",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-404"
+      },
+      {
+        "ore": "10-11",
+        "profesor": "Dragan M",
+        "materie": "Sec&AutomRetPtIntrep",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "S.203"
+      },
+      {
+        "ore": "11-12",
+        "profesor": "Predut S",
+        "materie": "TestSistSoft",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_3",
+        "sala": "L-508"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Dragan M",
+        "materie": "Sec&AutomRetPtIntrep",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "L-402"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Predut S",
+        "materie": "TestSistSoft",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_4",
+        "sala": "L-508"
+      },
+      {
+        "ore": "14-15",
+        "profesor": "Zavelca M",
+        "materie": "IntrPrelLbNat",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_3",
+        "sala": "L-404"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Suter F",
+        "materie": "IntrEvalPerfSistInf",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "S.210"
+      },
+      {
+        "ore": "15-16",
+        "profesor": "industrie",
+        "materie": "InvAutInVedeArtif (*)",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "ONLINE"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Suter F",
+        "materie": "IntrEvalPerfSistInf",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "L.413"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "industrie",
+        "materie": "InvAutInVedeArtif (*)",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "ONLINE"
+      },
+      {
+        "ore": "18-19",
+        "profesor": "Zavelca M",
+        "materie": "IntrPrelLbNat",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_4",
+        "sala": "L-508"
+      },
+      {
+        "ore": "18-19",
+        "profesor": "Oproiu M",
+        "materie": "TehOptimizare",
+        "tip": "Lab",
+        "frecventa": "SP",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-507"
+      },
+      {
+        "ore": "19-20",
+        "profesor": "Zavelca M",
+        "materie": "IntrPrelLbNat",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_4",
+        "sala": "L-508"
+      }
+    ],
+    "Joi": [
+      {
+        "ore": "8-10",
+        "profesor": "Micluta M",
+        "materie": "IntrPrelLbNat",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-507"
+      },
+      {
+        "ore": "8-10",
+        "profesor": "Mihailescu M",
+        "materie": "DezvAplSoftSec",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-509"
+      },
+      {
+        "ore": "10-12",
+        "profesor": "Mihailescu M",
+        "materie": "DezvAplSoftSec",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_3",
+        "sala": "L-509"
+      },
+      {
+        "ore": "10-12",
+        "profesor": "Micluta M",
+        "materie": "IntrPrelLbNat",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-507"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Iova A",
+        "materie": "MetFormIngSoft",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_3",
+        "sala": "L-106"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Dragulici D",
+        "materie": "SistOpLinux",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "S-512"
+      },
+      {
+        "ore": "14-15",
+        "profesor": "Stoican F",
+        "materie": "StratPlanEchRobo",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "S-415"
+      },
+      {
+        "ore": "14-15",
+        "profesor": "Iova A",
+        "materie": "MetFormIngSoft",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_4",
+        "sala": "L-106"
+      },
+      {
+        "ore": "15-16",
+        "profesor": "Dragulici D",
+        "materie": "SistOpLinux",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-511"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Paun A",
+        "materie": "IntrCercet&Bioinf",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "S.203"
+      },
+      {
+        "ore": "16-17",
+        "profesor": "Dragulici D",
+        "materie": "SistOpLinux",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-511"
+      },
+      {
+        "ore": "17-18",
+        "profesor": "Gheorghe S",
+        "materie": "StratPlanEchRobo",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-401"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Paun A",
+        "materie": "IntrCercet&Bioinf",
+        "tip": "seminar",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "S.203"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Dragulici D",
+        "materie": "SistOpLinux",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_3",
+        "sala": "L-511"
+      }
+    ],
+    "Vineri": [
+      {
+        "ore": "8-9",
+        "profesor": "Vasile SL",
+        "materie": "ESLA",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 1",
+        "semigrupa": "",
+        "sala": ""
+      },
+      {
+        "ore": "8-9",
+        "profesor": "Prunescu M",
+        "materie": "ESLA",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 3-4",
+        "semigrupa": "",
+        "sala": ""
+      },
+      {
+        "ore": "9-10",
+        "profesor": "Dragan M",
+        "materie": "ESLA",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 2",
+        "semigrupa": "",
+        "sala": ""
+      },
+      {
+        "ore": "9-10",
+        "profesor": "Leustean I",
+        "materie": "ESLA",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 5-7",
+        "semigrupa": "",
+        "sala": "S-415"
+      },
+      {
+        "ore": "9-10",
+        "profesor": "Olimid R",
+        "materie": "ESLA",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 8-10",
+        "semigrupa": "",
+        "sala": "S-415"
+      },
+      {
+        "ore": "10-11",
+        "profesor": "Dragan M",
+        "materie": "ESLA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 2",
+        "semigrupa": "Gr_1",
+        "sala": ""
+      },
+      {
+        "ore": "10-11",
+        "profesor": "Macovei B",
+        "materie": "ESLA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 5-7",
+        "semigrupa": "Gr_1",
+        "sala": "L-402"
+      },
+      {
+        "ore": "11-12",
+        "profesor": "Prunescu M",
+        "materie": "ESLA",
+        "tip": "seminar",
+        "frecventa": "",
+        "saptamani": "sapt 3-4",
+        "semigrupa": "",
+        "sala": "S-415"
+      },
+      {
+        "ore": "11-12",
+        "profesor": "Sterian MC",
+        "materie": "ESLA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 8-10",
+        "semigrupa": "Gr_1",
+        "sala": "L-402"
+      },
+      {
+        "ore": "12-13",
+        "profesor": "Dragan M",
+        "materie": "ESLA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 2",
+        "semigrupa": "Gr_2",
+        "sala": ""
+      },
+      {
+        "ore": "13-14",
+        "profesor": "Sterian MC",
+        "materie": "ESLA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 8-10",
+        "semigrupa": "Gr_2",
+        "sala": "L-402"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Vasile SL",
+        "materie": "ESLA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 2",
+        "semigrupa": "",
+        "sala": ""
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Dumitru N",
+        "materie": "ProtoCripto",
+        "tip": "seminar",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "S-415"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Dumitru N",
+        "materie": "ProtoCripto",
+        "tip": "seminar",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "S-415"
+      }
+    ],
+    "_model": "gemini-flash-latest",
+    "_source": "pag_51.png"
+  },
+  {
+    "grupa": "INFO Seriile 33,34,35: Optionale an III - INFO (Lab)",
+    "Luni": [
+      {
+        "ore": "10-12",
+        "profesor": "Iova A",
+        "materie": "MetFormIngSoft",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-106"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Iova A",
+        "materie": "MetFormIngSoft",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-106"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Predut S",
+        "materie": "TestSistSoft",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-508"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Predut S",
+        "materie": "TestSistSoft",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-508"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Patrascu A",
+        "materie": "TehOptimizare",
+        "tip": "sem",
+        "frecventa": "SI",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "S-214"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Oproiu M",
+        "materie": "TehOptimizare",
+        "tip": "Lab",
+        "frecventa": "SP",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-511"
+      }
+    ],
+    "Marti": [
+      {
+        "ore": "8-10",
+        "profesor": "industrie",
+        "materie": "ProdEngin (*)",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_3",
+        "sala": "L-509"
+      },
+      {
+        "ore": "10-12",
+        "profesor": "industrie",
+        "materie": "ProdEngin (*)",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_4",
+        "sala": "L-404"
+      },
+      {
+        "ore": "10-12",
+        "profesor": "Mihailescu M",
+        "materie": "DezvAplSoftSec",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-509"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Chirita CE",
+        "materie": "TehNewMedia",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-401"
+      },
+      {
+        "ore": "14-15",
+        "profesor": "Georgescu Gi",
+        "materie": "FunProiCompil",
+        "tip": "sem",
+        "frecventa": "SI",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "S.213"
+      },
+      {
+        "ore": "14-15",
+        "profesor": "Georgescu Gi",
+        "materie": "FunProiCompil",
+        "tip": "sem",
+        "frecventa": "SP",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "S.213"
+      },
+      {
+        "ore": "15-16",
+        "profesor": "Chirita CE",
+        "materie": "TehNewMedia",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-401"
+      },
+      {
+        "ore": "16-17",
+        "profesor": "Georgescu Gi",
+        "materie": "FunProiCompil",
+        "tip": "Lab",
+        "frecventa": "SI",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-507"
+      },
+      {
+        "ore": "16-17",
+        "profesor": "Patranjel D",
+        "materie": "ProgAplSimul",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_3",
+        "sala": "L-511"
+      },
+      {
+        "ore": "17-18",
+        "profesor": "Patranjel D",
+        "materie": "ProgAplSimul",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_3",
+        "sala": "L-511"
+      },
+      {
+        "ore": "17-18",
+        "profesor": "Georgescu Gi",
+        "materie": "FunProiCompil",
+        "tip": "Lab",
+        "frecventa": "SP",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-507"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Gheorghe S",
+        "materie": "StratPlanEchRobo",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-404"
+      }
+    ],
+    "Miercuri": [
+      {
+        "ore": "8-10",
+        "profesor": "industrie",
+        "materie": "ProdEngin (*)",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-404"
+      },
+      {
+        "ore": "10-12",
+        "profesor": "Predut S",
+        "materie": "TestSistSoft",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_3",
+        "sala": "L-508"
+      },
+      {
+        "ore": "10-12",
+        "profesor": "industrie",
+        "materie": "ProdEngin (*)",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-404"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Dragan M",
+        "materie": "Sec&AutomRetPtIntrep",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "L-402"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Predut S",
+        "materie": "TestSistSoft",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_4",
+        "sala": "L-508"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Zavelca M",
+        "materie": "IntrPrelLbNat",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_3",
+        "sala": "L-404"
+      },
+      {
+        "ore": "16-17",
+        "profesor": "industrie",
+        "materie": "InvRetNeurAdan (*)",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "L-202"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Suter F",
+        "materie": "IntrEvalPerfSistInf",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "L.413"
+      },
+      {
+        "ore": "17-18",
+        "profesor": "industrie",
+        "materie": "InvAutInVedeArtif (*)",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "ONLINE"
+      },
+      {
+        "ore": "18-19",
+        "profesor": "Zavelca M",
+        "materie": "IntrPrelLbNat",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_4",
+        "sala": "L-508"
+      },
+      {
+        "ore": "18-19",
+        "profesor": "Oproiu M",
+        "materie": "TehOptimizare",
+        "tip": "Lab",
+        "frecventa": "SP",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-507"
+      },
+      {
+        "ore": "19-20",
+        "profesor": "Zavelca M",
+        "materie": "IntrPrelLbNat",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_4",
+        "sala": "L-508"
+      }
+    ],
+    "Joi": [
+      {
+        "ore": "8-10",
+        "profesor": "Micluta M",
+        "materie": "IntrPrelLbNat",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-507"
+      },
+      {
+        "ore": "8-10",
+        "profesor": "Mihailescu M",
+        "materie": "DezvAplSoftSec",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-509"
+      },
+      {
+        "ore": "10-12",
+        "profesor": "Mihailescu M",
+        "materie": "DezvAplSoftSec",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_3",
+        "sala": "L-509"
+      },
+      {
+        "ore": "10-12",
+        "profesor": "Micluta M",
+        "materie": "IntrPrelLbNat",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-507"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Iova A",
+        "materie": "MetFormIngSoft",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_3",
+        "sala": "L-106"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Dragulici D",
+        "materie": "SistOpLinux",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-511"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Iova A",
+        "materie": "MetFormIngSoft",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_4",
+        "sala": "L-106"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Gheorghe S",
+        "materie": "StratPlanEchRobo",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-401"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Dragulici D",
+        "materie": "SistOpLinux",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-511"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Paun A",
+        "materie": "IntrCercet&Bioinf",
+        "tip": "seminar",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "S.203"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Dragulici D",
+        "materie": "SistOpLinux",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_3",
+        "sala": "L-511"
+      }
+    ],
+    "Vineri": [
+      {
+        "ore": "16-18",
+        "profesor": "Patranjel D",
+        "materie": "ProgAplSimul",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-509"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Dumitru N",
+        "materie": "ProtoCripto",
+        "tip": "seminar",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "S-415"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Dumitru N",
+        "materie": "ProtoCripto",
+        "tip": "seminar",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "S-415"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Patranjel D",
+        "materie": "ProgAplSimul",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-509"
+      }
+    ],
+    "_model": "gemini-flash-latest",
+    "_source": "pag_56.png"
+  },
+  {
+    "grupa": "Optionale an IV - CTI (3)",
+    "Luni": [
+      {
+        "ore": "8-10",
+        "profesor": "industrie",
+        "materie": "ProdEngin (*)",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "10-12",
+        "profesor": "Iova A",
+        "materie": "MetFormIngSoft",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-106"
+      },
+      {
+        "ore": "10-12",
+        "profesor": "Chirita CE",
+        "materie": "TehNewMedia",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "S-214"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Iova A",
+        "materie": "MetFormIngSoft",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-106"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Predut S",
+        "materie": "TestSistSoft",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.501"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Predut S",
+        "materie": "TestSistSoft",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-508"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Patrascu A",
+        "materie": "TehOptimizare",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "S-214"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Predut S",
+        "materie": "TestSistSoft",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-508"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Patrascu A",
+        "materie": "TehOptimizare",
+        "tip": "sem",
+        "frecventa": "SI",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "S-214"
+      },
+      {
+        "ore": "18-19",
+        "profesor": "Macovei B",
+        "materie": "ESLA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 5-7",
+        "semigrupa": "Gr_2",
+        "sala": "L.410"
+      },
+      {
+        "ore": "18-19",
+        "profesor": "Oproiu M",
+        "materie": "TehOptimizare",
+        "tip": "Lab",
+        "frecventa": "SP",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-511"
+      },
+      {
+        "ore": "19-20",
+        "profesor": "Macovei B",
+        "materie": "ESLA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 5-7",
+        "semigrupa": "Gr_2",
+        "sala": "L.410"
+      }
+    ],
+    "Marti": [
+      {
+        "ore": "8-10",
+        "profesor": "industrie",
+        "materie": "ProdEngin (*)",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_3",
+        "sala": "L-509"
+      },
+      {
+        "ore": "8-10",
+        "profesor": "Mihailescu M",
+        "materie": "DezvAplSoftSec",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.501"
+      },
+      {
+        "ore": "10-12",
+        "profesor": "Mihailescu M",
+        "materie": "DezvAplSoftSec",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-509"
+      },
+      {
+        "ore": "10-12",
+        "profesor": "industrie",
+        "materie": "ProdEngin (*)",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_4",
+        "sala": "L-404"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Chirita CE",
+        "materie": "TehNewMedia",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-401"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Chirita CE",
+        "materie": "TehNewMedia",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-401"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Ipate F",
+        "materie": "MetFormIngSoft",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "Amf.703"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Gheorghe S",
+        "materie": "StratPlanEchRobo",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-404"
+      }
+    ],
+    "Miercuri": [
+      {
+        "ore": "8-10",
+        "profesor": "industrie",
+        "materie": "ProdEngin (*)",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-404"
+      },
+      {
+        "ore": "10-11",
+        "profesor": "industrie",
+        "materie": "ProdEngin (*)",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-404"
+      },
+      {
+        "ore": "10-12",
+        "profesor": "Dragan M",
+        "materie": "Sec&AutomRetPtIntrep",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "S.203"
+      },
+      {
+        "ore": "11-13",
+        "profesor": "Predut S",
+        "materie": "TestSistSoft",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_3",
+        "sala": "L-508"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Dragan M",
+        "materie": "Sec&AutomRetPtIntrep",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "L-402"
+      },
+      {
+        "ore": "13-15",
+        "profesor": "Predut S",
+        "materie": "TestSistSoft",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_4",
+        "sala": "L-508"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Suter F",
+        "materie": "IntrEvalPerfSistInf",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "S.210"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "industrie",
+        "materie": "InvAutInVedeArtif (*)",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "ONLINE"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Suter F",
+        "materie": "IntrEvalPerfSistInf",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "L.413"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "industrie",
+        "materie": "InvAutInVedeArtif (*)",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "ONLINE"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Oproiu M",
+        "materie": "TehOptimizare",
+        "tip": "Lab",
+        "frecventa": "SP",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-507"
+      }
+    ],
+    "Joi": [
+      {
+        "ore": "8-10",
+        "profesor": "Mihailescu M",
+        "materie": "DezvAplSoftSec",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-509"
+      },
+      {
+        "ore": "10-12",
+        "profesor": "Mihailescu M",
+        "materie": "DezvAplSoftSec",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_3",
+        "sala": "L-509"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Iova A",
+        "materie": "MetFormIngSoft",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_3",
+        "sala": "L-106"
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Dragulici D",
+        "materie": "SistOpLinux",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "S-512"
+      },
+      {
+        "ore": "14-15",
+        "profesor": "Stoican F",
+        "materie": "StratPlanEchRobo",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "S-415"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Iova A",
+        "materie": "MetFormIngSoft",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_4",
+        "sala": "L-106"
+      },
+      {
+        "ore": "14-16",
+        "profesor": "Dragulici D",
+        "materie": "SistOpLinux",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-511"
+      },
+      {
+        "ore": "15-17",
+        "profesor": "Paun A",
+        "materie": "IntrCercet&Bioinf",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "S.203"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Dragulici D",
+        "materie": "SistOpLinux",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_2",
+        "sala": "L-511"
+      },
+      {
+        "ore": "16-18",
+        "profesor": "Gheorghe S",
+        "materie": "StratPlanEchRobo",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_1",
+        "sala": "L-401"
+      },
+      {
+        "ore": "17-19",
+        "profesor": "Paun A",
+        "materie": "IntrCercet&Bioinf",
+        "tip": "seminar",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "",
+        "sala": "S.203"
+      },
+      {
+        "ore": "18-20",
+        "profesor": "Dragulici D",
+        "materie": "SistOpLinux",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "",
+        "semigrupa": "Gr_3",
+        "sala": "L-511"
+      }
+    ],
+    "Vineri": [
+      {
+        "ore": "8-9",
+        "profesor": "Vasile SL",
+        "materie": "ESLA",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 1",
+        "semigrupa": "",
+        "sala": ""
+      },
+      {
+        "ore": "8-9",
+        "profesor": "Prunescu M",
+        "materie": "ESLA",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 3-4",
+        "semigrupa": "",
+        "sala": ""
+      },
+      {
+        "ore": "8-9",
+        "profesor": "Dragan M",
+        "materie": "ESLA",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 2",
+        "semigrupa": "",
+        "sala": ""
+      },
+      {
+        "ore": "8-10",
+        "profesor": "Leustean I",
+        "materie": "ESLA",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 5-7",
+        "semigrupa": "",
+        "sala": "S-415"
+      },
+      {
+        "ore": "8-10",
+        "profesor": "Olimid R",
+        "materie": "ESLA",
+        "tip": "curs",
+        "frecventa": "",
+        "saptamani": "sapt 8-10",
+        "semigrupa": "",
+        "sala": "S-415"
+      },
+      {
+        "ore": "10-11",
+        "profesor": "Dragan M",
+        "materie": "ESLA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 2",
+        "semigrupa": "Gr_1",
+        "sala": ""
+      },
+      {
+        "ore": "10-12",
+        "profesor": "Macovei B",
+        "materie": "ESLA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 5-7",
+        "semigrupa": "Gr_1",
+        "sala": "L-402"
+      },
+      {
+        "ore": "11-12",
+        "profesor": "Prunescu M",
+        "materie": "ESLA",
+        "tip": "seminar",
+        "frecventa": "",
+        "saptamani": "sapt 3-4",
+        "semigrupa": "",
+        "sala": "S-415"
+      },
+      {
+        "ore": "11-13",
+        "profesor": "Sterian MC",
+        "materie": "ESLA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 8-10",
+        "semigrupa": "Gr_1",
+        "sala": "L-402"
+      },
+      {
+        "ore": "10-12",
+        "profesor": "Dragan M",
+        "materie": "ESLA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 2",
+        "semigrupa": "Gr_2",
+        "sala": ""
+      },
+      {
+        "ore": "12-14",
+        "profesor": "Sterian MC",
+        "materie": "ESLA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 8-10",
+        "semigrupa": "Gr_2",
+        "sala": "L-402"
+      },
+      {
+        "ore": "10-14",
+        "profesor": "Vasile SL",
+        "materie": "ESLA",
+        "tip": "Lab",
+        "frecventa": "",
+        "saptamani": "sapt 2",
+        "semigrupa": "",
+        "sala": ""
+      }
+    ],
+    "_model": "gemini-flash-latest",
+    "_source": "pag_74.png"
   }
 ]
