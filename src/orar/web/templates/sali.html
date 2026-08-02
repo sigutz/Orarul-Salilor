@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block titlu %}Săli{% endblock %}
+
+{% block continut %}
+<section class="antet">
+  <nav class="firimituri"><a href="/">acasă</a><span>›</span><strong>săli</strong></nav>
+  <h1>Săli</h1>
+  <p class="nota">Gradul de ocupare e calculat pe {{ sloturi_total }} sloturi de o oră
+     (5 zile × 12 ore). Locațiile externe și cele virtuale sunt listate separat.</p>
+</section>
+
+<section class="sectiune">
+  <table class="tabel-sali">
+    <thead><tr><th>Sală</th><th>Tip</th><th>Ore ocupate</th><th>Ocupare</th></tr></thead>
+    <tbody>
+    {% for s in sali %}
+      <tr>
+        <td><a href="/sala/{{ s.slug }}">{{ s.nume }}</a></td>
+        <td><span class="pastila neutra">{{ s.tip }}</span></td>
+        <td>{{ ocupari[s.id] }}/{{ sloturi_total }}</td>
+        <td>
+          <span class="bara-ocupare"><span style="width: {{ (100 * ocupari[s.id] / sloturi_total)|round|int }}%"></span></span>
+          {{ (100 * ocupari[s.id] / sloturi_total)|round|int }}%
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

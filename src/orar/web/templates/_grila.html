@@ -1,0 +1,89 @@
+{# Grila saptamanala, folosita si la /grupa si la /sala.
+   `grila` vine din domain.grid; `mod` e "grupa" sau "sala" si decide ce scrie in celula.
+
+   Layout: fiecare zi e un rand flex (eticheta + benzi). O banda e un grid de 12 coloane
+   pe un singur rand, iar blocurile se aseaza explicit peste el. Caroiajul orar e desenat
+   ca gradient pe banda, nu din 12 div-uri goale. #}
+
+<div class="grila-scroll">
+<div class="grila" style="--coloane: {{ grila.nr_coloane }}">
+
+  <div class="rand cap">
+    <div class="eticheta"></div>
+    <div class="banda cap-ore">
+      {% for h in grila.ore %}
+        <div class="cap-ora" style="grid-column: {{ loop.index }}">
+          <strong>{{ h }}</strong><span>{{ "%02d:00"|format(h) }}</span>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% for rand in grila.zile %}
+    <div class="rand">
+      <div class="eticheta">
+        <span class="zi-lung">{{ rand.zi }}</span>
+        <span class="zi-scurt">{{ rand.zi[:2] }}</span>
+      </div>
+
+      <div class="benzi">
+        {% for banda in rand.benzi %}
+          <div class="banda">
+            {% for b in banda %}
+              {% set o = b.ora %}
+              <a class="bloc tip-{{ b.clasa_tip }} prov-{{ b.provenienta.value }}{{ ' inactiv' if not b.activa }}"
+                 style="grid-column: {{ b.col_start }} / span {{ b.col_span }}"
+                 href="{% if mod == 'grupa' and o.sala %}/sala/{{ o.sala.slug }}{% else %}/grupa/{{ o.grupa.slug }}{% endif %}"
+                 title="{{ o.materie.nume if o.materie else '?' }}{% if o.tip_ora_materie %} ({{ o.tip_ora_materie }}){% endif %} · {{ '%02d:%02d'|format(o.ora_inceput.hour, o.ora_inceput.minute) }}–{{ '%02d:%02d'|format(o.ora_sfarsit.hour, o.ora_sfarsit.minute) }}{% if o.frecventa %} · {{ o.frecventa }}{% endif %}{% if o.saptamani %} · {{ o.saptamani }}{% endif %}{% if b.sursa %} · {{ b.sursa }}{% endif %}">
+
+                <span class="bloc-sus">
+                  <span class="bloc-materie">{{ o.materie.nume if o.materie else '—' }}</span>
+                  {% if o.semigrupa %}<span class="et et-semi">{{ o.semigrupa.replace('_', ' ') }}</span>{% endif %}
+                </span>
+
+                <span class="bloc-mij">
+                  {% if o.tip_ora_materie %}<span class="et et-tip">{{ o.tip_ora_materie }}</span>{% endif %}
+                  {% if o.frecventa %}<span class="et et-frecv">{{ o.frecventa }}</span>{% endif %}
+                  {% if o.saptamani %}<span class="et et-sapt">{{ o.saptamani }}</span>{% endif %}
+                </span>
+
+                <span class="bloc-jos">
+                  <span class="bloc-prof">{{ o.profesor.nume if o.profesor else '' }}</span>
+                  <span class="bloc-loc">
+                    {%- if mod == 'grupa' -%}{{ o.sala.nume if o.sala else '' }}
+                    {%- else -%}{{ o.grupa.nume }}{%- endif -%}
+                  </span>
+                </span>
+
+                {% if mod == 'grupa' and b.provenienta.value != 'proprie' and b.sursa %}
+                  <span class="bloc-sursa">{{ b.sursa }}</span>
+                {% endif %}
+              </a>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="banda goala"><span>liber toată ziua</span></div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+
+</div>
+</div>
+
+<div class="legenda">
+  <span class="cheie tip-curs">curs</span>
+  <span class="cheie tip-seminar">seminar</span>
+  <span class="cheie tip-lab">laborator</span>
+  <span class="cheie tip-proiect">proiect</span>
+  {% if mod == 'grupa' %}
+    <span class="sep"></span>
+    <span class="cheie prov-mostenita">moștenită de la serie/an</span>
+    <span class="cheie prov-semigrupa">doar o semigrupă</span>
+    <span class="cheie prov-partajata">opțional / comună</span>
+  {% endif %}
+  {% if grila.inactive and not filtru_saptamana %}
+    <span class="sep"></span>
+    <span class="cheie inactiv">{{ grila.inactive }} nu se țin săptămâna aceasta</span>
+  {% endif %}
+</div>

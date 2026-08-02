@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block titlu %}Sala {{ sala.nume }}{% endblock %}
+
+{% block continut %}
+<section class="antet">
+  <nav class="firimituri">
+    <a href="/">acasă</a><span>›</span><a href="/sala">săli</a><span>›</span><strong>{{ sala.nume }}</strong>
+  </nav>
+
+  <h1>{{ sala.nume }}
+    {% if sala.tip != 'fizica' %}<span class="pastila neutra">{{ sala.tip }}</span>{% endif %}
+  </h1>
+
+  <div class="sumar">
+    <span class="fapt"><strong>{{ total }}</strong> activități</span>
+    <span class="fapt"><strong>{{ ocupate }}</strong>/{{ sloturi_total }} ore ocupate</span>
+    <span class="fapt masura">
+      <span class="bara-ocupare"><span style="width: {{ procent }}%"></span></span>
+      <strong>{{ procent }}%</strong> ocupare
+    </span>
+  </div>
+
+  <div class="ocupare-zile">
+    {% for zi, n in ocupare_pe_zi.items() %}
+      <div class="zi-ocupare">
+        <span class="zi-nume">{{ zi }}</span>
+        <span class="zi-bara"><span style="height: {{ (100 * n / ore_pe_zi)|round|int }}%"></span></span>
+        <span class="zi-cifra">{{ n }}/{{ ore_pe_zi }}</span>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="filtre">
+    {% if in_semestru %}
+      <a class="filtru {{ 'activ' if filtru_saptamana }}" href="?{% if not filtru_saptamana %}saptamana=true{% endif %}">
+        {% if filtru_saptamana %}✓ {% endif %}doar săptămâna curentă
+      </a>
+    {% else %}
+      <span class="filtru inert" title="Filtrul e disponibil doar în timpul semestrului">
+        vacanță — se afișează orarul complet
+      </span>
+    {% endif %}
+  </div>
+</section>
+
+{% if conflicte %}
+<section class="conflicte">
+  <h2>⚠ {{ conflicte|length }} suprapunere{{ 'i' if conflicte|length != 1 }} în această sală</h2>
+  <p class="nota">Activități care ocupă sala în același interval, în aceeași săptămână.
+     Alternanțele săptămână pară/impară nu sunt numărate aici.</p>
+  <ul>
+    {% for c in conflicte %}
+      <li>
+        <span class="cand">{{ c.zi }} {{ c.ora }}</span>
+        <span class="ce">
+          {% for a in c.activitati %}
+            <a href="/grupa/{{ a.grupa.slug }}">{{ a.materie.nume if a.materie else '?' }}</a>
+            <em>({{ a.grupa.nume }}{% if a.profesor %}, {{ a.profesor.nume }}{% endif %},
+                {{ '%02d:%02d'|format(a.ora_inceput.hour, a.ora_inceput.minute) }}–{{ '%02d:%02d'|format(a.ora_sfarsit.hour, a.ora_sfarsit.minute) }})</em>
+            {%- if not loop.last %} <span class="vs">vs</span> {% endif %}
+          {% endfor %}
+        </span>
+        <span class="motiv">{{ c.motiv }}</span>
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
+
+{% with mod = 'sala' %}{% include "_grila.html" %}{% endwith %}
+{% endblock %}

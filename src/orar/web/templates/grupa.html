@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block titlu %}{{ grupa.nume }}{% endblock %}
+
+{% block continut %}
+<section class="antet">
+  <nav class="firimituri">
+    <a href="/">acasă</a>
+    {% for nod in lant %}
+      <span>›</span><a href="/grupa/{{ nod.slug }}">{{ nod.nume }}</a>
+    {% endfor %}
+    <span>›</span><strong>{{ grupa.nume }}</strong>
+  </nav>
+
+  <h1>{{ grupa.nume }}</h1>
+
+  <div class="sumar">
+    <span class="fapt"><strong>{{ total }}</strong> activități</span>
+    {% if lant %}
+      <span class="fapt">moștenește de la
+        {% for nod in lant %}<a href="/grupa/{{ nod.slug }}">{{ nod.nume }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+      </span>
+    {% endif %}
+    {% if copii %}
+      <span class="fapt">semigrupe:
+        {% for c in copii %}<a href="/grupa/{{ c.slug }}">{{ c.nume }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+      </span>
+    {% endif %}
+  </div>
+
+  <div class="filtre">
+    {% if in_semestru %}
+      <a class="filtru {{ 'activ' if filtru_saptamana }}"
+         href="?{% if not filtru_saptamana %}saptamana=true{% endif %}{% if semigrupa_activa %}&semigrupa={{ semigrupa_activa }}{% endif %}">
+        {% if filtru_saptamana %}✓ {% endif %}doar săptămâna curentă
+      </a>
+    {% else %}
+      <span class="filtru inert" title="Filtrul e disponibil doar în timpul semestrului">
+        vacanță — se afișează orarul complet
+      </span>
+    {% endif %}
+
+    {% if semigrupe %}
+      <span class="grup-filtre">
+        <a class="filtru {{ 'activ' if not semigrupa_activa }}"
+           href="?{% if filtru_saptamana %}saptamana=true{% endif %}">toate semigrupele</a>
+        {% for sg in semigrupe %}
+          <a class="filtru {{ 'activ' if semigrupa_activa == sg }}"
+             href="?semigrupa={{ sg }}{% if filtru_saptamana %}&saptamana=true{% endif %}">{{ sg.replace('_', ' ') }}</a>
+        {% endfor %}
+      </span>
+    {% endif %}
+  </div>
+</section>
+
+{% with mod = 'grupa' %}{% include "_grila.html" %}{% endwith %}
+{% endblock %}

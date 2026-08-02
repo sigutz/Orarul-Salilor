@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block titlu %}Acasă{% endblock %}
+
+{% block continut %}
+<section class="hero">
+  <h1>Orarul Sălilor</h1>
+  <p>Orarul Facultății de Matematică și Informatică, pe grupe și pe săli.
+     Caută mai sus sau alege mai jos.</p>
+</section>
+
+<section class="sectiune">
+  <h2>Formațiuni de studiu</h2>
+  {% for spec in specializari %}
+    {% set grupe = pe_specializare.get(spec.id, []) %}
+    {% if grupe %}
+      <div class="familie">
+        <h3><a href="/grupa/{{ spec.slug }}">{{ spec.nume }}</a></h3>
+        <div class="pastile">
+          {% for g in grupe %}<a class="pastila-link" href="/grupa/{{ g.slug }}">{{ g.nume }}</a>{% endfor %}
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+</section>
+
+<section class="sectiune">
+  <h2>Săli</h2>
+  <div class="pastile">
+    {% for s in sali %}<a class="pastila-link sala" href="/sala/{{ s.slug }}">{{ s.nume }}</a>{% endfor %}
+  </div>
+  <p><a class="mai-mult" href="/sala">vezi toate sălile, cu gradul de ocupare →</a></p>
+</section>
+
+<section class="sectiune">
+  <h2>Opționale, facultative, limbi străine</h2>
+  <div class="pastile">
+    {% for p in pachete %}<a class="pastila-link mic" href="/grupa/{{ p.slug }}">{{ p.nume }}</a>{% endfor %}
+  </div>
+</section>
+{% endblock %}

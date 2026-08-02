@@ -1,0 +1,14 @@
+{% if termen %}
+  {% if grupe or sali %}
+    <ul class="lista-rezultate">
+      {% for g in grupe %}
+        <li><a href="/grupa/{{ g.slug }}"><span class="tag">{{ g.tip }}</span>{{ g.nume }}</a></li>
+      {% endfor %}
+      {% for s in sali %}
+        <li><a href="/sala/{{ s.slug }}"><span class="tag sala">sală</span>{{ s.nume }}</a></li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <ul class="lista-rezultate"><li class="gol">nimic pentru „{{ termen }}”</li></ul>
+  {% endif %}
+{% endif %}

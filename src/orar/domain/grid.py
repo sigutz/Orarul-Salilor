@@ -1,0 +1,185 @@
+"""Construieste grila saptamanala pe care o randeaza sabloanele.
+
+Aceeasi structura serveste si `/grupa/{id}` si `/sala/{id}` -- difera doar multimea de ore
+primita. Fiecare zi devine un rand cu una sau mai multe *benzi*: cand doua activitati se
+suprapun in timp (semigrupe diferite, saptamani alternante), ele coboara pe benzi separate,
+exact ca in PDF-ul original.
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from enum import StrEnum
+
+from orar.db.models import Ora
+from orar.domain.weeks import Saptamana, parse_interval_saptamani
+
+__all__ = [
+    "Provenienta",
+    "Bloc",
+    "RandZi",
+    "Grila",
+    "construieste_grila",
+    "ZILE",
+    "ORA_MIN",
+    "ORA_MAX",
+]
+
+ZILE = ("Luni", "Marti", "Miercuri", "Joi", "Vineri")
+ORA_MIN = 8
+ORA_MAX = 20  # exclusiv: ultima coloana e 19:00-20:00
+
+
+class Provenienta(StrEnum):
+    """De unde vine o ora, raportat la formatiunea ceruta."""
+
+    PROPRIE = "proprie"
+    #: De la un stramos: curs de serie sau de an.
+    MOSTENITA = "mostenita"
+    #: De la un descendent: laborator de semigrupa.
+    SEMIGRUPA = "semigrupa"
+    #: Prin ORA_GRUPA -- optional, facultativ, limba straina, activitate comuna.
+    PARTAJATA = "partajata"
+
+
+@dataclass
+class Bloc:
+    """O activitate, pozitionata in grila."""
+
+    ora: Ora
+    col_start: int  # 1-based, relativ la ORA_MIN
+    col_span: int
+    provenienta: Provenienta
+    #: Nodul de la care vine, afisat doar cand e util (ex. "Seria 24").
+    sursa: str = ""
+    #: False daca activitatea nu se tine in saptamana selectata.
+    activa: bool = True
+
+    @property
+    def clasa_tip(self) -> str:
+        """Clasa CSS dupa tipul activitatii."""
+        tip = (self.ora.tip_ora_materie or "").lower()
+        if "curs" in tip:
+            return "curs"
+        if "lab" in tip:
+            return "lab"
+        if "sem" in tip:
+            return "seminar"
+        if "proiect" in tip:
+            return "proiect"
+        return "alta"
+
+
+@dataclass
+class RandZi:
+    zi: str
+    benzi: list[list[Bloc]] = field(default_factory=list)
+
+    @property
+    def nr_benzi(self) -> int:
+        return max(1, len(self.benzi))
+
+
+@dataclass
+class Grila:
+    zile: list[RandZi]
+    ore: tuple[int, ...] = tuple(range(ORA_MIN, ORA_MAX))
+    #: Cate activitati au fost ascunse de filtrul de saptamana.
+    inactive: int = 0
+
+    @property
+    def nr_coloane(self) -> int:
+        return len(self.ore)
+
+    @property
+    def total_blocuri(self) -> int:
+        return sum(len(b) for zi in self.zile for b in zi.benzi)
+
+
+def _coloane(o: Ora) -> tuple[int, int]:
+    """(col_start 1-based, col_span) pentru o activitate."""
+    start = max(ORA_MIN, o.ora_inceput.hour)
+    sfarsit = min(ORA_MAX, o.ora_sfarsit.hour or ORA_MAX)
+    if sfarsit <= start:
+        sfarsit = start + 1
+    return start - ORA_MIN + 1, sfarsit - start
+
+
+def _se_suprapun(a: Bloc, b: Bloc) -> bool:
+    return a.col_start < b.col_start + b.col_span and b.col_start < a.col_start + a.col_span
+
+
+def _asaza_in_benzi(blocuri: list[Bloc]) -> list[list[Bloc]]:
+    """Impachetare greedy: fiecare bloc merge pe prima banda unde incape."""
+    benzi: list[list[Bloc]] = []
+    for bloc in sorted(blocuri, key=lambda b: (b.col_start, -b.col_span)):
+        for banda in benzi:
+            if not any(_se_suprapun(bloc, alt) for alt in banda):
+                banda.append(bloc)
+                break
+        else:
+            benzi.append([bloc])
+    return benzi
+
+
+def _este_activa(o: Ora, saptamana: Saptamana | None) -> bool:
+    """Se tine activitatea in saptamana data?
+
+    Fara o saptamana academica cunoscuta (vacanta), consideram tot activ -- e mai bine sa
+    aratam prea mult decat sa ascundem ore reale pe baza unui numar inventat.
+    """
+    if saptamana is None:
+        return True
+    if o.frecventa and o.frecventa != saptamana.paritate.value:
+        return False
+    if o.saptamani:
+        interval = parse_interval_saptamani(o.saptamani)
+        if interval is not None and saptamana.numar not in interval:
+            return False
+    return True
+
+
+def construieste_grila(
+    ore: list[Ora],
+    *,
+    provenienta: dict[int, Provenienta] | None = None,
+    surse: dict[int, str] | None = None,
+    saptamana: Saptamana | None = None,
+    doar_saptamana_curenta: bool = False,
+) -> Grila:
+    """Aranjeaza o lista de ore in grila saptamanala.
+
+    `provenienta`/`surse` sunt indexate dupa `Ora.id`; lipsa lor inseamna "proprie".
+    Cu `saptamana` data, activitatile care nu se tin atunci sunt marcate `activa=False`
+    (sau eliminate de tot, cu `doar_saptamana_curenta`).
+    """
+    provenienta = provenienta or {}
+    surse = surse or {}
+
+    pe_zi: dict[str, list[Bloc]] = {z: [] for z in ZILE}
+    inactive = 0
+
+    for o in ore:
+        if o.zi_saptamana not in pe_zi:
+            continue
+        col_start, col_span = _coloane(o)
+        activa = _este_activa(o, saptamana)
+        if not activa:
+            inactive += 1
+            if doar_saptamana_curenta:
+                continue
+        pe_zi[o.zi_saptamana].append(
+            Bloc(
+                ora=o,
+                col_start=col_start,
+                col_span=col_span,
+                provenienta=provenienta.get(o.id, Provenienta.PROPRIE),
+                sursa=surse.get(o.id, ""),
+                activa=activa,
+            )
+        )
+
+    return Grila(
+        zile=[RandZi(zi=z, benzi=_asaza_in_benzi(pe_zi[z])) for z in ZILE],
+        inactive=inactive,
+    )

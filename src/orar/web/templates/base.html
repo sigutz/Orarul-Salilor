@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titlu %}Orarul Sălilor{% endblock %} — FMI</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='orar.css') }}">
+  <script src="{{ url_for('static', path='htmx.min.js') }}" defer></script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='13' font-size='14'>🗓️</text></svg>">
+</head>
+<body>
+<header class="bara">
+  <a class="marca" href="/">Orarul&nbsp;Sălilor <span class="marca-sub">FMI</span></a>
+
+  <div class="cauta">
+    <input type="search" name="q" placeholder="caută grupă sau sală… (244, Amf.701, L.410)"
+           hx-get="/cauta" hx-trigger="input changed delay:200ms, search"
+           hx-target="#rezultate" autocomplete="off" aria-label="Caută">
+    <div id="rezultate" class="rezultate"></div>
+  </div>
+
+  {% if numar_saptamana is defined %}
+  <div class="saptamana {{ 'impara' if paritate.value == 'SI' else 'para' }}"
+       title="Săptămâna academică curentă, calculată din ancora publicată de FMI">
+    {% if in_semestru %}
+      săptămâna <strong>{{ numar_saptamana }}</strong> · <strong>{{ paritate.eticheta }}</strong>
+      <span class="pastila">{{ paritate.value }}</span>
+    {% else %}
+      în afara semestrului
+    {% endif %}
+  </div>
+  {% endif %}
+</header>
+
+<main>
+  {% block continut %}{% endblock %}
+</main>
+
+<footer class="subsol">
+  <span>Date extrase din orarul public al
+    <a href="https://fmi.unibuc.ro/orar/" rel="noreferrer">Facultății de Matematică și Informatică</a>,
+    Universitatea din București.</span>
+  {% if total_ore is defined %}<span>{{ total_ore }} activități în bază</span>{% endif %}
+</footer>
+</body>
+</html>
