@@ -96,7 +96,7 @@ def normalizeaza_specializare(text: str) -> str | None:
 
 
 def normalizeaza_semigrupa(text: str) -> str | None:
-    """"Gr 1" / "Gr_1" / "Gr1" / "gr. 2"  ->  "Gr_1" / "Gr_2".
+    """ "Gr 1" / "Gr_1" / "Gr1" / "gr. 2"  ->  "Gr_1" / "Gr_2".
 
     Intoarce None daca textul nu contine o eticheta de semigrupa.
     """
@@ -145,14 +145,22 @@ class TitluOrar:
 
 def _slugify(text: str) -> str:
     text = text.lower()
-    for a, b in (("ă", "a"), ("â", "a"), ("î", "i"), ("ș", "s"), ("ş", "s"), ("ț", "t"), ("ţ", "t")):
+    for a, b in (
+        ("ă", "a"),
+        ("â", "a"),
+        ("î", "i"),
+        ("ș", "s"),
+        ("ş", "s"),
+        ("ț", "t"),
+        ("ţ", "t"),
+    ):
         text = text.replace(a, b)
     text = re.sub(r"[^a-z0-9]+", "-", text)
     return text.strip("-")
 
 
 def _split_specializari(text: str) -> tuple[str, ...]:
-    """"(Mate, Mate-Info, Mate Apl., Info, CTI)" -> coduri canonice."""
+    """ "(Mate, Mate-Info, Mate Apl., Info, CTI)" -> coduri canonice."""
     out: list[str] = []
     for bucata in re.split(r"[,;]| si | și ", text):
         cod = normalizeaza_specializare(bucata)
@@ -203,13 +211,42 @@ _RE_ROBOTICA = re.compile(
 )
 
 
+# Confuziile pe care recunoasterea le face constant la fontul asteia: `I` majuscul si `l`
+# mic sunt aproape identice in Arial, la fel `0` si `O`. Le reparam *inainte* de parsare,
+# fiindca pica exact pe partile care duc ierarhia: `an III`, `Master 403`, `Seriile 33,34`.
+# Corectam numai in interiorul unui token deja omogen -- un cuvant care e altfel numai cifre
+# romane, sau altfel numai cifre -- deci nu putem strica un cuvant obisnuit.
+_RE_ROMAN_STRICAT = re.compile(r"\b(?=[IVXl]{2,})[IVXl]+\b")
+_RE_NUMAR_STRICAT = re.compile(r"\b(?=\d*[O]\d)[\dO]{3}\b")
+
+
+def _repara_specializare(m: re.Match[str]) -> str:
+    """`CTl` -> `CTI`, dar numai daca rezultatul e un cod de specializare cunoscut."""
+    token = m.group(0)
+    if token in SPECIALIZARI or "l" not in token:
+        return token
+    reparat = token.replace("l", "I")
+    return reparat if reparat in SPECIALIZARI else token
+
+
+def curata_titlu(titlu: str) -> str:
+    """Repara confuziile de glife dintr-un titlu citit cu OCR."""
+    raw = re.sub(r"\s+", " ", (titlu or "").strip())
+    raw = _RE_ROMAN_STRICAT.sub(lambda m: m.group(0).replace("l", "I"), raw)
+    raw = _RE_NUMAR_STRICAT.sub(lambda m: m.group(0).replace("O", "0"), raw)
+    # Codurile de specializare sunt o lista inchisa, deci `CTl` se repara fara risc.
+    raw = re.sub(r"\b[A-Za-z]{2,4}\b", _repara_specializare, raw)
+    # `Seriile` iese des `Serile`: nu e confuzie de glif, ci o litera pierduta intre doi `i`.
+    return re.sub(r"\bSeri+le\b", "Seriile", raw, flags=re.IGNORECASE)
+
+
 def parse_titlu(titlu: str) -> TitluOrar:
     """Decodeaza titlul unei pagini de orar.
 
     Nu arunca niciodata: un titlu nerecunoscut intoarce ``TipPagina.NECUNOSCUT``,
     ca o pagina ciudata sa nu opreasca tot ingestul (vezi §9 din plan).
     """
-    raw = re.sub(r"\s+", " ", (titlu or "").strip())
+    raw = curata_titlu(titlu)
     if not raw:
         return TitluOrar(raw="", tip=TipPagina.NECUNOSCUT, eticheta="", slug="")
 

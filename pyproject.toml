@@ -20,16 +20,19 @@ dependencies = [
     "beautifulsoup4>=4.12",
     "rapidfuzz>=3.9",             # corectie lexicon (§3.3)
     "pillow>=10.0",
+    "apscheduler>=3.10",          # verificarea zilnica a orarului (Etapa 6)
 ]
 
 [project.optional-dependencies]
-# Instalate doar cand se lucreaza la Etapa 4+ (captura/segmentare/OCR).
-# Tinute separat ca `pip install -e .` sa ramana rapid pentru munca la UI.
+# Instalate doar cand se ruleaza ingestul din imagini (captura/segmentare/OCR).
+# Tinute separat ca `pip install -e .` sa ramana rapid pentru munca la UI si la baza.
+# OpenCV si Tesseract nu apar aici desi erau in plan: segmentarea s-a dovedit sa aiba
+# nevoie doar de numpy, iar recunoasterea foloseste rapidocr (ONNX local, fara sudo).
+# `orar planuri` mai cere si `pdftotext` (poppler-utils), care nu se instaleaza din pip.
 ingest = [
     "playwright>=1.45",
-    "opencv-python-headless>=4.10",
     "numpy>=1.26",
-    "pytesseract>=0.3.10",
+    "rapidocr-onnxruntime>=1.3",  # recunoastere locala, fara apeluri de retea
 ]
 dev = [
     "pytest>=8.0",
@@ -51,6 +54,11 @@ where = ["src"]
 testpaths = ["tests"]
 pythonpath = ["src"]
 addopts = "-ra"
+markers = [
+  # Ruleaza tot lantul de citire pe cele 98 de capturi: ~3 minute si modelul ONNX.
+  # `pytest -m "not slow"` il sare.
+  "slow: dureaza minute si cere data/screenshots/ plus modelul de recunoastere",
+]
 
 [tool.ruff]
 line-length = 100

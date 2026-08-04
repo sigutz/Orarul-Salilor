@@ -30,6 +30,19 @@
     {% endif %}
   </div>
   {% endif %}
+
+  <nav class="cont">
+    {% if cont %}
+      <a href="/preferinte" title="Grupă, semigrupă și opționale">{{ cont.nume.split()[0] }}</a>
+      <form method="post" action="/iesire">
+        <input type="hidden" name="csrf" value="{{ csrf }}">
+        <button type="submit" class="link">ieși</button>
+      </form>
+    {% else %}
+      <a href="/intrare">intră</a>
+      <a class="accentuat" href="/inregistrare">cont nou</a>
+    {% endif %}
+  </nav>
 </header>
 
 <main>
@@ -40,7 +53,13 @@
   <span>Date extrase din orarul public al
     <a href="https://fmi.unibuc.ro/orar/" rel="noreferrer">Facultății de Matematică și Informatică</a>,
     Universitatea din București.</span>
-  {% if total_ore is defined %}<span>{{ total_ore }} activități în bază</span>{% endif %}
+  <span>
+    {%- if total_ore is defined %}{{ total_ore }} activități{% endif %}
+    {%- if sursa_orar and sursa_orar.actualizat %} · orar publicat
+      {{ "%02d.%02d.%04d"|format(sursa_orar.actualizat.day, sursa_orar.actualizat.month, sursa_orar.actualizat.year) }}
+      {%- if not sursa_orar.la_zi %} <strong>(mai nou decât ce avem în bază)</strong>{% endif %}
+    {%- endif %}
+  </span>
 </footer>
 </body>
 </html>

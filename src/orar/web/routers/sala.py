@@ -84,7 +84,9 @@ def _ocupare(ore: list[Ora]) -> tuple[dict[str, int], int]:
     pe_zi = dict.fromkeys(ZILE, 0)
     ocupate: set[tuple[str, int]] = set()
     for o in ore:
-        for h in range(max(ORA_MIN, o.ora_inceput.hour), min(ORA_MAX, o.ora_sfarsit.hour or ORA_MAX)):
+        for h in range(
+            max(ORA_MIN, o.ora_inceput.hour), min(ORA_MAX, o.ora_sfarsit.hour or ORA_MAX)
+        ):
             ocupate.add((o.zi_saptamana, h))
     for zi, _h in ocupate:
         if zi in pe_zi:
@@ -103,7 +105,7 @@ def listeaza_sali(request: Request, s: Session = Depends(get_db)) -> HTMLRespons
         request=request,
         name="sali.html",
         context={
-            **context_saptamana(),
+            **context_saptamana(s=s),
             "sali": sali,
             "ocupari": ocupari,
             "sloturi_total": SLOTURI_TOTAL,
@@ -115,7 +117,9 @@ def listeaza_sali(request: Request, s: Session = Depends(get_db)) -> HTMLRespons
 def afiseaza_sala(
     request: Request,
     identificator: str,
-    doar_saptamana: bool = Query(False, alias="saptamana", description="doar activitatile din saptamana curenta"),
+    doar_saptamana: bool = Query(
+        False, alias="saptamana", description="doar activitatile din saptamana curenta"
+    ),
     zi: date | None = Query(None),
     s: Session = Depends(get_db),
 ) -> HTMLResponse:
@@ -124,7 +128,7 @@ def afiseaza_sala(
         raise HTTPException(status_code=404, detail=f"Nu există sala {identificator!r}")
 
     ore = ore_pentru_sala(s, sala.id)
-    ctx_sapt = context_saptamana(zi)
+    ctx_sapt = context_saptamana(zi, s)
     sapt = saptamana_activa(ctx_sapt)
     grila = construieste_grila(
         ore,

@@ -3,22 +3,47 @@
 from __future__ import annotations
 
 from fastapi import APIRouter, Depends, Query, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from orar.db.models import Grupa, Ora, Sala
+from orar.db.models import Grupa, Ora, Sala, User
 from orar.domain.hierarchy import DENUMIRI_SPECIALIZARE
+from orar.web.auth import utilizator_curent
 from orar.web.deps import context_saptamana, get_db, templates
 
 router = APIRouter(tags=["index"])
 
 
 @router.get("/", response_class=HTMLResponse)
-def acasa(request: Request, s: Session = Depends(get_db)) -> HTMLResponse:
+def acasa(
+    request: Request,
+    s: Session = Depends(get_db),
+    user: User | None = Depends(utilizator_curent),
+) -> HTMLResponse:
+    # Cine si-a ales o grupa nu are de ce sa treaca prin cautare: il ducem direct la orarul
+    # lui. `/acasa` ramane pentru cand chiar vrea lista intreaga.
+    if user is not None and user.grupa is not None:
+        return RedirectResponse(f"/grupa/{user.grupa.slug}", status_code=303)
+    return _pagina_acasa(request, s, user)
+
+
+@router.get("/acasa", response_class=HTMLResponse)
+def toate(
+    request: Request,
+    s: Session = Depends(get_db),
+    user: User | None = Depends(utilizator_curent),
+) -> HTMLResponse:
+    """Lista completa, chiar daca ai o grupa preferata."""
+    return _pagina_acasa(request, s, user)
+
+
+def _pagina_acasa(request: Request, s: Session, user: User | None) -> HTMLResponse:
     specializari = list(
         s.execute(
-            select(Grupa).where(Grupa.tip == "specializare").order_by(Grupa.specializare, Grupa.an_studiu)
+            select(Grupa)
+            .where(Grupa.tip == "specializare")
+            .order_by(Grupa.specializare, Grupa.an_studiu)
         ).scalars()
     )
     # Grupele reale, gata de afisat sub fiecare specializare.
@@ -28,9 +53,7 @@ def acasa(request: Request, s: Session = Depends(get_db)) -> HTMLResponse:
     pachete = list(
         s.execute(select(Grupa).where(Grupa.tip == "optional").order_by(Grupa.nume)).scalars()
     )
-    sali = list(
-        s.execute(select(Sala).where(Sala.tip == "fizica").order_by(Sala.nume)).scalars()
-    )
+    sali = list(s.execute(select(Sala).where(Sala.tip == "fizica").order_by(Sala.nume)).scalars())
 
     pe_specializare: dict[int, list[Grupa]] = {}
     for g in grupe:
@@ -45,7 +68,8 @@ def acasa(request: Request, s: Session = Depends(get_db)) -> HTMLResponse:
         request=request,
         name="index.html",
         context={
-            **context_saptamana(),
+            **context_saptamana(s=s),
+            "user": user,
             "specializari": specializari,
             "pe_specializare": pe_specializare,
             "pachete": pachete,
@@ -77,7 +101,9 @@ def cauta(
             ).scalars()
         )
         sali = list(
-            s.execute(select(Sala).where(Sala.nume.ilike(tipar)).order_by(Sala.nume).limit(8)).scalars()
+            s.execute(
+                select(Sala).where(Sala.nume.ilike(tipar)).order_by(Sala.nume).limit(8)
+            ).scalars()
         )
 
     return templates.TemplateResponse(

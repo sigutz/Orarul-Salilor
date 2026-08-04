@@ -15,6 +15,14 @@
 
   <div class="sumar">
     <span class="fapt"><strong>{{ total }}</strong> activități</span>
+    {% if credite %}
+      <span class="fapt" title="Suma creditelor disciplinelor din orarul acestei formațiuni, numărate o dată fiecare">
+        <strong>{{ credite }}</strong> credite
+        {%- if materii_cu_credite < materii_total %}
+          <small>({{ materii_cu_credite }} din {{ materii_total }} discipline au plan încărcat)</small>
+        {%- endif %}
+      </span>
+    {% endif %}
     {% if lant %}
       <span class="fapt">moștenește de la
         {% for nod in lant %}<a href="/grupa/{{ nod.slug }}">{{ nod.nume }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
@@ -24,6 +32,15 @@
       <span class="fapt">semigrupe:
         {% for c in copii %}<a href="/grupa/{{ c.slug }}">{{ c.nume }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
       </span>
+    {% endif %}
+    {% if preferinte_active %}
+      {# Filtrarea tacita e mai rea decat lipsa ei: spunem ca se aplica si cum se scoate. #}
+      <span class="filtrat">
+        grupa ta, filtrată după <a href="/preferinte">preferințe</a>
+        · <a href="?tot=1">vezi tot</a>
+      </span>
+    {% elif e_grupa_mea %}
+      <span class="filtrat">grupa ta</span>
     {% endif %}
   </div>
 

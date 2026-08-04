@@ -105,7 +105,14 @@ def test_toate_titlurile_din_golden_se_parseaza(pagini_golden):
 
 @pytest.mark.parametrize(
     ("brut", "asteptat"),
-    [("Gr 1", "Gr_1"), ("Gr_2", "Gr_2"), ("Gr3", "Gr_3"), ("gr. 4", "Gr_4"), ("", None), ("x", None)],
+    [
+        ("Gr 1", "Gr_1"),
+        ("Gr_2", "Gr_2"),
+        ("Gr3", "Gr_3"),
+        ("gr. 4", "Gr_4"),
+        ("", None),
+        ("x", None),
+    ],
 )
 def test_normalizare_semigrupa(brut, asteptat):
     assert normalizeaza_semigrupa(brut) == asteptat

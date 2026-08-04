@@ -14,7 +14,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from sqlalchemy import Select, or_, select, text
+from sqlalchemy import Select, and_, or_, select, text
 from sqlalchemy.orm import Session, joinedload
 
 from orar.db.models import Grupa, Ora, OraGrupa, Sala
@@ -93,15 +93,25 @@ def ore_pentru_grupa(
 
     `optionale_permise` restrange pachetele de optionale la cele la care userul e inscris
     (USER_OPTIONAL). Daca e None, se includ toate cele legate de grupa.
+
+    Atentie la ce inseamna fiecare coloana: in `ORA_GRUPA`, `ID_GRUPA` e **tinta** legaturii
+    (seria careia i se ofera pachetul), iar pachetul propriu-zis e `ORA.ID_GRUPA`. Deci
+    inscrierile se filtreaza pe *proprietarul orei*, nu pe tinta; altfel conditia e implinita
+    oricum de lantul studentului si nu filtreaza nimic.
     """
     ids = ids_relevante(s, grupa_id)
 
     conditii = [Ora.grupa_id.in_(ids)]
     if include_optionale:
-        sub = select(OraGrupa.ora_id).where(OraGrupa.grupa_id.in_(ids))
+        legate = select(OraGrupa.ora_id).where(OraGrupa.grupa_id.in_(ids))
+        partajate = Ora.id.in_(legate)
         if optionale_permise is not None:
-            sub = sub.where(OraGrupa.grupa_id.in_(optionale_permise | ids))
-        conditii.append(Ora.id.in_(sub))
+            pachete = select(Grupa.id).where(Grupa.tip == "optional")
+            partajate = and_(
+                partajate,
+                or_(Ora.grupa_id.not_in(pachete), Ora.grupa_id.in_(optionale_permise)),
+            )
+        conditii.append(partajate)
 
     stmt = _cu_relatii(select(Ora).where(or_(*conditii)))
     if perioada_id is not None:
@@ -131,9 +141,7 @@ def gaseste_grupa(s: Session, identificator: str) -> Grupa | None:
             return g
         if g := s.get(Grupa, int(ident)):
             return g
-    return s.scalar(
-        select(Grupa).where(or_(Grupa.slug == ident, Grupa.nume == ident)).limit(1)
-    )
+    return s.scalar(select(Grupa).where(or_(Grupa.slug == ident, Grupa.nume == ident)).limit(1))
 
 
 def gaseste_sala(s: Session, identificator: str) -> Sala | None:

@@ -3,18 +3,6 @@
 from __future__ import annotations
 
 import pytest
-from fastapi.testclient import TestClient
-
-from orar.web import deps
-from orar.web.app import app
-
-
-@pytest.fixture
-def client(db):
-    app.dependency_overrides[deps.get_db] = lambda: db
-    with TestClient(app) as c:
-        yield c
-    app.dependency_overrides.clear()
 
 
 def test_pagina_principala(client):

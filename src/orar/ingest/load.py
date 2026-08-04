@@ -95,13 +95,13 @@ class _Cache:
         self.profesori: dict[str, Profesor] = {
             p.nume: p for p in s.execute(select(Profesor)).scalars()
         }
-        self.materii: dict[str, Materie] = {
-            m.slug: m for m in s.execute(select(Materie)).scalars()
-        }
+        self.materii: dict[str, Materie] = {m.slug: m for m in s.execute(select(Materie)).scalars()}
         self.sali: dict[str, Sala] = {r.slug: r for r in s.execute(select(Sala)).scalars()}
-        self.grupe: dict[str, Grupa] = {
-            g.slug: g for g in s.execute(select(Grupa)).scalars() if g.an_universitar == an
-        } if (an := an_universitar) else {}
+        self.grupe: dict[str, Grupa] = (
+            {g.slug: g for g in s.execute(select(Grupa)).scalars() if g.an_universitar == an}
+            if (an := an_universitar)
+            else {}
+        )
 
     # -- profesor ---------------------------------------------------------
     def profesor(self, nume: str | None) -> Profesor | None:
@@ -173,7 +173,15 @@ class _Cache:
 
 def _slug(text: str) -> str:
     text = text.lower()
-    for a, b in (("ă", "a"), ("â", "a"), ("î", "i"), ("ș", "s"), ("ş", "s"), ("ț", "t"), ("ţ", "t")):
+    for a, b in (
+        ("ă", "a"),
+        ("â", "a"),
+        ("î", "i"),
+        ("ș", "s"),
+        ("ş", "s"),
+        ("ț", "t"),
+        ("ţ", "t"),
+    ):
         text = text.replace(a, b)
     return re.sub(r"[^a-z0-9]+", "-", text).strip("-")
 
@@ -212,20 +220,32 @@ def _lant_ierarhic(cache: _Cache, t: TitluOrar) -> Grupa:
                 an_studiu=t.an,
             )
         return cache.grupa(
-            t.slug, t.grupa or t.raw, Nivel.GRUPA,
-            parinte=parinte, specializare=spec, an_studiu=t.an,
+            t.slug,
+            t.grupa or t.raw,
+            Nivel.GRUPA,
+            parinte=parinte,
+            specializare=spec,
+            an_studiu=t.an,
         )
 
     if t.tip is TipPagina.MASTER:
         return cache.grupa(
-            t.slug, t.eticheta, Nivel.GRUPA,
-            parinte=parinte, specializare=spec, an_studiu=t.an,
+            t.slug,
+            t.eticheta,
+            Nivel.GRUPA,
+            parinte=parinte,
+            specializare=spec,
+            an_studiu=t.an,
         )
 
     # Optionale / facultative / limbi / special / necunoscut -> pachet.
     return cache.grupa(
-        t.slug, t.eticheta or t.raw, Nivel.OPTIONAL,
-        parinte=parinte, specializare=spec, an_studiu=t.an,
+        t.slug,
+        t.eticheta or t.raw,
+        Nivel.OPTIONAL,
+        parinte=parinte,
+        specializare=spec,
+        an_studiu=t.an,
     )
 
 
@@ -264,14 +284,16 @@ _RE_ORE = re.compile(r"^\s*(\d{1,2})\s*-\s*(\d{1,2})\s*$")
 
 
 def _interval(ore: str) -> tuple[time, time] | None:
-    """"14-17" -> (14:00, 17:00). Capat exclusiv, vezi docs §3."""
+    """ "14-17" -> (14:00, 17:00). Capat exclusiv, vezi docs §3."""
     m = _RE_ORE.match(ore or "")
     if not m:
         return None
     inceput, sfarsit = int(m.group(1)), int(m.group(2))
     if not (0 <= inceput < sfarsit <= 24):
         return None
-    return time(hour=inceput), time(hour=sfarsit if sfarsit < 24 else 23, minute=0 if sfarsit < 24 else 59)
+    return time(hour=inceput), time(
+        hour=sfarsit if sfarsit < 24 else 23, minute=0 if sfarsit < 24 else 59
+    )
 
 
 def _nod_activitate(cache: _Cache, nod_pagina: Grupa, semigrupa: str | None, t: TitluOrar) -> Grupa:
@@ -358,7 +380,10 @@ def incarca_pagini(
                     saptamani=(act.get("saptamani") or "").strip() or None,
                     semigrupa=semigrupa,
                     sursa_pagina=sursa,
-                    confidence=1.0,  # datele golden sunt validate manual
+                    # Fara `_confidence` inseamna date validate manual (JSON-ul de referinta).
+                    confidence=float(act.get("_confidence", 1.0)),
+                    sursa_bbox=act.get("_bbox"),
+                    campuri_nesigure=act.get("_nesigure") or None,
                 )
                 s.add(ora)
                 s.flush()

@@ -109,9 +109,7 @@ def normalizeaza_sala(raw: str | None) -> SalaNormalizata:
             nume = f"{prefix}.{m.group('numar')}"
             if suffix:
                 nume = f"{nume} {suffix}"
-            return SalaNormalizata(
-                nume=nume, slug=_slugify(nume), tip=TipSala.FIZICA, raw=original
-            )
+            return SalaNormalizata(nume=nume, slug=_slugify(nume), tip=TipSala.FIZICA, raw=original)
 
     # Nerecunoscut: pastram textul asa cum e, dar nu il numaram ca sala fizica.
     nume = re.sub(r"\s+", " ", original)

@@ -2,23 +2,61 @@
 
 from __future__ import annotations
 
-from fastapi import FastAPI, Request
+import os
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
+
+from fastapi import Depends, FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
+from starlette.middleware.sessions import SessionMiddleware
 
+from orar.web.auth import cheie_secreta, utilizator_curent
 from orar.web.deps import AICI, context_saptamana, templates
-from orar.web.routers import grupa, index, sala
+from orar.web.routers import admin, cont, grupa, index, sala
+
+
+@asynccontextmanager
+async def ciclu_de_viata(_app: FastAPI) -> AsyncIterator[None]:
+    """Porneste verificarea zilnica, daca e activata cu `ORAR_SCHEDULER=1`."""
+    from orar.worker.scheduler import porneste
+
+    planificator = porneste()
+    try:
+        yield
+    finally:
+        if planificator is not None:
+            planificator.shutdown(wait=False)
+
 
 app = FastAPI(
     title="Orarul Sălilor — FMI",
     docs_url="/api/docs",
     openapi_url="/api/openapi.json",
+    lifespan=ciclu_de_viata,
+    # Pe toata aplicatia: fiecare cerere isi afla contul o singura data, prin `get_db`,
+    # si il lasa in `request.state` pentru bara de sus.
+    dependencies=[Depends(utilizator_curent)],
 )
 app.mount("/static", StaticFiles(directory=str(AICI / "static")), name="static")
+
+# `same_site="lax"` face ca un POST venit de pe alt sit sa nu primeasca deloc cookie-ul --
+# prima linie de aparare impotriva CSRF; tokenul din formulare e a doua.
+# `https_only` se activeaza cu ORAR_HTTPS=1: pe http local ar face cookie-ul inutilizabil.
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=cheie_secreta(),
+    session_cookie="orar_sesiune",
+    same_site="lax",
+    https_only=os.getenv("ORAR_HTTPS", "").strip().lower() in ("1", "true", "da", "yes"),
+    max_age=60 * 60 * 24 * 30,
+)
 
 app.include_router(index.router)
 app.include_router(grupa.router)
 app.include_router(sala.router)
+app.include_router(admin.router)
+app.include_router(cont.router)
 
 
 @app.exception_handler(404)

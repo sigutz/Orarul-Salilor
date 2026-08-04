@@ -57,8 +57,22 @@ activități coexistă în același interval (semigrupe diferite sau săptămân
 Benzile *nu* au înălțime fixă — se deduc din intervalele `y` distincte ale dreptunghiurilor găsite.
 
 **Culoarea NU identifică materia.** Verificat pe 40 de pagini: 124 de culori distincte, iar
-aceeași materie primește până la 21 de culori (`POO`). aSc colorează *per lecție*. Culoarea e
-utilă exclusiv la **segmentare** — celulele alăturate au culori diferite, deci se separă curat.
+aceeași materie primește până la 21 de culori (`POO`). aSc colorează *per lecție*.
+
+**Culoarea nu delimitează nici măcar celula.** Două lucruri strică regula „o celulă = o
+suprafață de o culoare”, ambele verificate pe pixeli:
+
+- **Fundal în diagonală.** aSc umple unele celule cu două tonuri, tăiate oblic — de exemplu
+  portocaliu-albastru pe `pag_73`, sau colorat-alb pe `pag_51`. Cele două jumătăți sunt
+  *aceeași* activitate, cu un singur profesor, o singură materie și o singură sală. O
+  segmentare care taie la schimbarea de culoare rupe astfel de celule în două.
+- **Chenare estompate.** Liniile dintre celule au 1 px și, la rezoluția de randare, se
+  amestecă cu umplerile din jur: între două verzuri, chenarul iese `(87,142,87)` — departe
+  de negru. Nu pot fi găsite cu un prag de „negru”; sunt însă minime locale de luminanță.
+
+De aceea `ingest/segment.py` taie **numai** unde există chenar desenat, detectat ca minim
+local de luminanță *continuu* pe toată lățimea. Continuitatea e ce deosebește un chenar de un
+rând de text: și textul e mai întunecat decât vecinii pe medie, dar lasă goluri între litere.
 
 ## 3. Conținutul unei celule
 
@@ -145,3 +159,102 @@ Pagina FMI publică ancora, în text:
 
 Din ea, `domain/weeks.py` calculează pentru orice dată numărul săptămânii și paritatea SI/SP,
 folosite la filtrarea activităților cu `frecventa` sau `saptamani`.
+
+## 8. Pagini care nu sunt orar
+
+PDF-ul are 100 de pagini, dintre care **primele două nu conțin tabel** — segmentarea le
+respinge cu `EroareSegmentare`, ceea ce e comportamentul dorit. Ambele sunt însă utile:
+
+| Pagina | Conținut | Folosit pentru |
+| :--- | :--- | :--- |
+| 1 | Anunțuri + **ancorele de paritate** („Săptămâna 23 – 27 februarie este impară (SI)”) și data actualizării | a doua sursă pentru §7 |
+| 2 | **Tabelul de capacități**: `Amf. 501 → 122 locuri`, `L.410 → 15`, … pentru 24 de săli | `SALA.NR_LOCURI` (neingestat încă) |
+
+Tabelul de la pagina 2 e și dovada că normalizarea sălilor din §4 e necesară: chiar și acolo
+apar amândouă separatoarele — `S-214` lângă `S.102`, `L-106` lângă `L.410`.
+
+## 9. Setul de referință — unde greșește
+
+`tests/golden/date.json` e ieșirea prototipului cu Gemini. E util ca reper, dar **nu e
+oracol**. Diferențele față de extragerea deterministă au fost verificate una câte una, pe
+pixeli. Ce s-a găsit:
+
+**a) `ore` — referința taie benzile suprapuse.** Unde pagina are trei celule suprapuse pe
+`18-20`, referința citește șase celule alăturate de câte o oră (`18-19`, `19-20`, …).
+Verificat pe `pag_012` luni și pe `pag_016` vineri, unde adevărul e
+`10-12, 12-14, 14-16, 14-16, 16-18, 16-18, 18-20`, iar referința mută două activități la
+`16-17` și `17-19`. Din 147 de dezacorduri pe `ore`, în **134** intervalul nostru îl conține
+strict pe cel din referință — semnătura exactă a acestei erori. `ore` iese la noi din
+aritmetică pe caroiaj, deci nu poate „aproxima” o lățime.
+
+**b) Transcrieri greșite, corectate în golden.** Două afectau vocabularul, deci forțau ieșiri
+greșite prin lexicon:
+
+| Referința spunea | Sursa spune | Cum s-a verificat |
+| :--- | :--- | :--- |
+| `ProgrAvObjJava` (×18), `ProgrAvObjava` (×2) | `ProgrAvObJava` | zoom pe glife, `pag_032` luni 18-20 |
+| `ComplAnMate Prof` | `ComplAnMateProf` | pe aceeași pagină apare și nerupt, pe un rând (`pag_076` joi 17-19) |
+
+**c) Celule pierdute.** Referinței îi lipsesc 6 activități reale, verificate vizual —
+`pag_014` miercuri (două laboratoare POO), `pag_016` vineri, `pag_046`, `pag_051`, `pag_056`.
+
+**d) Câmpuri inventate.** La `pag_003` vineri 18-20, celula scrie
+`Programare competitiva [SAMBATA S.I., ora 10-16]` fără nicio paranteză de tip; referința
+pune tot textul în `materie` **și** deduce `frecventa = SI` din „S.I.” — care acolo face parte
+din notă, nu e marcaj de săptămână impară.
+
+**e) Patru celule pe care nicio extragere nu le poate citi.** Pe `pag_028` și `pag_048`, aSc
+suprapune textul: numele celor patru profesori și `Combinatorica (curs)` sunt scrise unul
+peste altul, literă peste literă. Acolo referința e corectă (modelul a ghicit bine), iar
+extragerea deterministă marchează câmpurile ca neconfirmate și le trimite în `/admin/review` —
+comportamentul corect când imaginea chiar nu se poate citi.
+
+## 10. A doua sursă: orarul profesorilor
+
+FMI publică același orar de două ori. Al doilea PDF (191 de pagini, `bit.ly/4cFmnXo` pentru
+semestrul II) are **aceeași grilă aSc**, dar celula e pivotată:
+
+```
+  orarul grupelor                      orarul profesorilor
+┌─────────────────────────────┐      ┌─────────────────────────────┐
+│ Alexe B              Gr_3   │      │ AdvMachLearn (sem, SI)      │
+│   AdvMachLearn (sem, SI)    │      │        407/411/412          │
+│                     S-415   │      │ Gr_3                S-415   │
+└─────────────────────────────┘      └─────────────────────────────┘
+  titlu = „INFO Master 407"            titlu = „Alexe Bogdan"
+```
+
+Ce se schimbă: **profesorul e în titlu**, iar în mijlocul celulei stau **formațiunile**
+(`407/411/412`, `251/252`, `407`). Restul câmpurilor sunt pe aceleași poziții, deci
+segmentarea și cea mai mare parte a atribuirii merg neschimbate. Două ajustări au fost
+necesare, ambele documentate în cod: recunoașterea listei de formațiuni după formă, și
+regula că **prefixul dinaintea parantezei de tip e materia oriunde ar cădea** — la grupe
+paranteza e pe al doilea rând, la profesori pe primul.
+
+Paginile conțin și activități administrative fără materie și fără sală (`Consiliu FMI`).
+
+### Prescurtarea numelor
+
+Aceeași persoană e scrisă `Alexe B` în celulă și `Alexe Bogdan` în titlu. Regula aSc **nu**
+e „primul cuvânt + inițiala celui de-al doilea”; perechile de mai jos sunt reale:
+
+| În celulă | În titlu | Ce ilustrează |
+| :--- | :--- | :--- |
+| `Cheval H` | `Cheval Andrei-Horatiu` | inițiala e a **ultimului** prenume |
+| `Micluta M` | `Micluta-Campeanu Marius` | numele de familie compus, tăiat la primul cuvânt |
+| `BanuDem. I` | `Banu Demergian Iulia` | familia lipită și tăiată **în mijlocul** cuvântului |
+| `Marin Le` | `Marin (Velcescu) Letitia` | numele de fată în paranteze; două litere din același prenume |
+| `Grecu AE` | `Grecu Alina-Elena` | câte o inițială pentru fiecare prenume |
+
+`domain/names.py` acoperă toate cazurile. Trunchierea în mijlocul unui cuvânt se acceptă
+**numai** când prescurtarea e mai lungă decât primul cuvânt și continuă în al doilea —
+altfel `Ion L` ar prinde `Ionescu Ioan`, care e alt om.
+
+### Ce a ieșit la verificare
+
+Pe datele din 26.04.2026: **668 de activități găsite în ambele surse, cu 0 divergențe de
+profesor**. Cele 118 neconfirmate sunt, în cea mai mare parte, activități ținute de cadre din
+afara FMI — laboratoarele de la Măgurele (Fizică), limbile străine — care nu au pagină în
+orarul profesorilor. Din cele 189 de nume întregi, **181 de prescurtări din bază au fost
+înlocuite** cu numele complet; 6 au rămas ambigue (`Popescu A` se potrivește și cu Adrian, și
+cu Ana) și se raportează ca atare.

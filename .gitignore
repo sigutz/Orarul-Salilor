@@ -19,6 +19,7 @@ dist/
 # Screenshot-urile si imaginile decupate se pot reproduce oricand din sursa;
 # ~86 MB care nu au ce cauta in istoric. Paginile de referinta traiesc in tests/fixtures/.
 data/screenshots/
+data/planuri/
 data/processed_ss/
 data/raw/
 data/cache/

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block titlu %}Intră în cont{% endblock %}
+
+{% block continut %}
+<section class="formular">
+  <h1>Intră în cont</h1>
+  <p class="nota">Contul ține doar preferințele: grupa, semigrupa și opționalele la care ești
+    înscris. Orarul e public și fără cont.</p>
+
+  {% if eroare %}<p class="avertisment" role="alert">{{ eroare }}</p>{% endif %}
+
+  <form method="post" action="/intrare" class="camp-lista">
+    <input type="hidden" name="csrf" value="{{ csrf }}">
+    <label>
+      <span>Email</span>
+      <input type="email" name="email" value="{{ email or '' }}" required autofocus
+             autocomplete="username">
+    </label>
+    <label>
+      <span>Parolă</span>
+      <input type="password" name="parola" required autocomplete="current-password">
+    </label>
+    <button type="submit" class="principal">Intră</button>
+  </form>
+
+  <p class="nota">Nu ai cont? <a href="/inregistrare">Fă-ți unul</a>.</p>
+</section>
+{% endblock %}

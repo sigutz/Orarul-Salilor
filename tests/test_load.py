@@ -80,7 +80,11 @@ def test_consolidarea_elimina_duplicatele_de_curs(db, sesiune_neconsolidata):
     inainte = sesiune_neconsolidata.scalar(select(func.count()).select_from(Ora))
     dupa = db.scalar(select(func.count()).select_from(Ora))
     assert dupa < inainte
-    assert dupa == 837
+    # 1143 -> 836. Numarul a scazut cu unu fata de masuratoarea initiala dupa ce am corectat
+    # in referinta grafia `ProgrAvObJava` (aparea si `ProgrAvObjJava`, si `ProgrAvObjava` --
+    # vezi docs/formatul-orarului.md §9b): erau doua nume pentru aceeasi materie, deci un
+    # curs de serie ramasese nedublat si parea ca ocupa sala de doua ori.
+    assert dupa == 836
 
 
 def test_cursul_de_serie_ocupa_sala_o_singura_data(db):
@@ -119,7 +123,7 @@ def test_salile_sunt_clasificate(db):
 
 
 def test_pagina_cu_titlu_necunoscut_nu_pierde_activitati(db):
-    """"Conferinte si Seminarii" nu se incadreaza in ierarhie, dar ocupa sali reale."""
+    """ "Conferinte si Seminarii" nu se incadreaza in ierarhie, dar ocupa sali reale."""
     g = db.scalar(select(Grupa).where(Grupa.nume == "Conferinte si Seminarii"))
     assert g is not None
     assert db.scalar(select(func.count()).select_from(Ora).where(Ora.grupa_id == g.id)) > 0

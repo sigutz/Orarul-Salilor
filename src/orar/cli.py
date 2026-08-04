@@ -10,14 +10,37 @@ from pathlib import Path
 from orar.db.session import cale_db, sesiune
 
 
+def _pagini_din_imagini(director: Path, referinta: Path | None) -> list[dict]:
+    """Segmenteaza si citeste fiecare PNG din director, in formatul asteptat de `load`."""
+    from orar.ingest.ocr import RapidOCR, citeste_fisier
+    from orar.ingest.segment import EroareSegmentare
+
+    lex = _lexicon(referinta)
+    motor = RapidOCR()
+    pagini: list[dict] = []
+    # Recursiv: `orar sincronizeaza` pune capturile in subdirectoare, cate unul pe sursa.
+    for cale in sorted(director.rglob("*.png")):
+        try:
+            citita = citeste_fisier(cale, motor, lex)
+        except EroareSegmentare as e:
+            print(f"  {cale.name}: sarita ({e})")
+            continue
+        sursa = str(cale.relative_to(director))
+        pagini.append({**citita.ca_json(cu_provenienta=True), "_source": sursa})
+    print(f"{len(pagini)} pagini citite din {director}")
+    return pagini
+
+
 def _cmd_load(args: argparse.Namespace) -> int:
     from orar.ingest.consolidate import consolideaza
-    from orar.ingest.load import incarca_din_json
+    from orar.ingest.load import incarca_din_json, incarca_pagini
 
     with sesiune() as s:
-        rap = incarca_din_json(
-            s, args.fisier, an_universitar=args.an, semestru=args.semestru
-        )
+        if args.fisier.is_dir():
+            pagini = _pagini_din_imagini(args.fisier, args.referinta)
+            rap = incarca_pagini(s, pagini, an_universitar=args.an, semestru=args.semestru)
+        else:
+            rap = incarca_din_json(s, args.fisier, an_universitar=args.an, semestru=args.semestru)
         print(rap)
         if not args.fara_consolidare:
             print("\n--- consolidare (activitati de serie) ---")
@@ -55,6 +78,237 @@ def _cmd_reset(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_captureaza(args: argparse.Namespace) -> int:
+    from orar.ingest.capture import EroareCaptura, OptiuniCaptura, captureaza_orar
+
+    optiuni = OptiuniCaptura(
+        director=args.director,
+        scala=args.scala,
+        headless=not args.cu_fereastra,
+        limita=args.limita,
+    )
+    try:
+        rez = captureaza_orar(args.url, optiuni)
+    except EroareCaptura as e:
+        print(f"[eroare] {e}")
+        return 1
+
+    print(f"pagini capturate : {len(rez.pagini)}")
+    print(f"dintre care noi  : {rez.cate_noi}")
+    if rez.pagini:
+        p = rez.pagini[0]
+        print(f"rezolutie        : {p.latime}x{p.inaltime}")
+    for a in rez.avertismente:
+        print(f"  ! {a}")
+    return 0
+
+
+def _cmd_segmenteaza(args: argparse.Namespace) -> int:
+    from orar.ingest.segment import ZILE, EroareSegmentare, segmenteaza_fisier
+
+    for cale in args.imagini:
+        try:
+            pag = segmenteaza_fisier(cale)
+        except EroareSegmentare as e:
+            print(f"{cale.name}: [eroare] {e}")
+            continue
+        print(f"{cale.name}: {len(pag.celule)} activitati")
+        for zi in ZILE:
+            celule = pag.pe_zi(zi)
+            if not celule:
+                continue
+            detalii = ", ".join(f"{c.ore}(b{c.banda})" for c in celule)
+            print(f"   {zi:9} {detalii}")
+    return 0
+
+
+def _lexicon(cale_json: Path | None):  # noqa: ANN001
+    """Vocabularul din baza; daca baza e goala, din JSON-ul de referinta."""
+    from orar.ingest.lexicon import Lexicon
+
+    with sesiune() as s:
+        lex = Lexicon.din_baza(s)
+    if lex.materii or not cale_json:
+        return lex
+    print(f"[info] baza e goala; iau vocabularul din {cale_json}")
+    return Lexicon.din_json(cale_json)
+
+
+def _cmd_citeste(args: argparse.Namespace) -> int:
+    from orar.ingest.lexicon import Lexicon
+    from orar.ingest.ocr import RapidOCR, citeste_fisier
+
+    lex = Lexicon.din_json(args.referinta) if args.fara_baza else _lexicon(args.referinta)
+    motor = RapidOCR()
+    for cale in args.imagini:
+        pag = citeste_fisier(cale, motor, lex)
+        print(f"\n=== {cale.name}: {pag.titlu!r} ({pag.scor_titlu:.2f}) ===")
+        for a in pag.activitati:
+            semne = f" !{','.join(a.nesigure)}" if a.nesigure else ""
+            print(
+                f"  {a.zi:9} {a.ore:6} {a.incredere:4.2f}{semne:12} "
+                f"{a.profesor:24} {a.materie:22} ({a.tip}"
+                f"{', ' + a.frecventa if a.frecventa else ''})"
+                f"{' [' + a.saptamani + ']' if a.saptamani else ''} "
+                f"{a.semigrupa:10} {a.sala}"
+            )
+            if args.verbose:
+                print(f"      brut: {a.brut}")
+    return 0
+
+
+def _cmd_evalueaza(args: argparse.Namespace) -> int:
+    from orar.ingest.evaluate import CAMPURI, evalueaza
+    from orar.ingest.lexicon import Lexicon
+    from orar.ingest.ocr import RapidOCR
+
+    imagini = sorted(args.director.rglob("*.png"))
+    if not imagini:
+        print(f"[eroare] niciun PNG in {args.director}")
+        return 1
+    lex = Lexicon.din_json(args.referinta) if args.fara_baza else _lexicon(args.referinta)
+    raport = evalueaza(imagini, args.referinta, RapidOCR(), lex)
+    print(raport)
+    if raport.pagini_nepotrivite:
+        print("\npagini fara corespondent in referinta:")
+        for p in raport.pagini_nepotrivite:
+            print(f"  {p}")
+    if args.verbose:
+        print("\ncele mai dese diferente (asteptat -> citit):")
+        for (camp, astept, citit), n in raport.diferente.most_common(40):
+            print(f"  {n:4}x {camp:10} {astept!r:28} -> {citit!r}")
+    praguri = {"sala": 0.99, "tip": 0.99, "frecventa": 0.99, "semigrupa": 0.99}
+    praguri |= {"materie": 0.97, "profesor": 0.95, "ore": 0.99, "saptamani": 0.97}
+    sub_prag = [c for c in CAMPURI if raport.acuratete(c) < praguri[c]]
+    if sub_prag:
+        print(f"\nsub pragul din plan: {', '.join(sub_prag)}")
+    return 0
+
+
+def _cmd_sincronizeaza(args: argparse.Namespace) -> int:
+    from orar.worker.sync import sincronizeaza
+
+    with sesiune() as s:
+        rap = sincronizeaza(
+            s,
+            an_universitar=args.an,
+            semestru=args.semestru,
+            director=args.director,
+            forteaza=args.forteaza,
+            doar_verifica=args.doar_verifica,
+            fara_crosscheck=args.fara_crosscheck,
+        )
+        print(rap)
+    return 0 if not rap.avertismente else 0
+
+
+def _cmd_crosscheck(args: argparse.Namespace) -> int:
+    from orar.ingest.crosscheck import (
+        citeste_orarul_profesorilor,
+        completeaza_profesorii,
+        extinde_numele,
+        verifica,
+    )
+    from orar.ingest.ocr import RapidOCR
+
+    if not args.director.is_dir():
+        print(
+            f"[eroare] {args.director} nu exista; ruleaza intai `orar captureaza <link profesori>`"
+        )
+        return 1
+
+    with sesiune() as s:
+        index = citeste_orarul_profesorilor(args.director, RapidOCR(), _lexicon(args.referinta))
+        rap = verifica(s, index)
+        print(rap)
+        if args.verbose:
+            for eticheta, lista in (
+                ("divergente de profesor", rap.divergente),
+                ("neconfirmate", rap.neconfirmate),
+                ("nume necunoscute in baza", rap.nume_noi),
+            ):
+                if lista:
+                    print(f"\n--- {eticheta} ({len(lista)}) ---")
+                    for x in lista[:40]:
+                        print(f"  {x}")
+        if args.completeaza:
+            schimbate = completeaza_profesorii(s, index)
+            print(f"\ncampuri nesigure completate din a doua sursa: {len(schimbate)}")
+            for x in schimbate:
+                print(f"  {x}")
+            extinse, ambigue = extinde_numele(s, index)
+            print(f"prescurtari inlocuite cu numele intreg: {len(extinse)}")
+            if args.verbose:
+                for x in extinse[:40]:
+                    print(f"  {x}")
+            if ambigue:
+                print(f"prescurtari ambigue, lasate cum sunt: {len(ambigue)}")
+                for x in ambigue[:20]:
+                    print(f"  {x}")
+    return 0
+
+
+def _cmd_planuri(args: argparse.Namespace) -> int:
+    from orar.ingest.plans import (
+        descarca_planuri,
+        incarca_planuri,
+        parseaza_director,
+    )
+
+    if args.descarca:
+        print(f"descarc planurile in {args.director} ...")
+        descarcate = descarca_planuri(args.director)
+        print(f"  {len(descarcate)} PDF-uri")
+    if not args.director.is_dir():
+        print(f"[eroare] {args.director} nu exista; ruleaza cu --descarca")
+        return 1
+
+    rap = parseaza_director(args.director)
+    print(rap)
+    for a in rap.avertismente:
+        print(f"  ! {a}")
+    if not rap.discipline:
+        return 1
+
+    with sesiune() as s:
+        inc = incarca_planuri(s, rap.discipline)
+        print()
+        print(inc)
+        if args.verbose:
+            if inc.ambigue:
+                print("\n--- ambigue ---")
+                for x in inc.ambigue:
+                    print(f"  {x}")
+            if inc.fara_corespondent:
+                print(f"\n--- fara corespondent ({len(inc.fara_corespondent)}) ---")
+                for x in inc.fara_corespondent[:40]:
+                    print(f"  {x}")
+    return 0
+
+
+def _cmd_surse(_args: argparse.Namespace) -> int:
+    from sqlalchemy import select
+
+    from orar.db.models import AncoraSaptamana, SursaOrar
+
+    with sesiune() as s:
+        randuri = list(s.scalars(select(SursaOrar).order_by(SursaOrar.semestru.desc())))
+        if not randuri:
+            print("nicio sursa cunoscuta; ruleaza `orar sincronizeaza --doar-verifica`")
+        for r in randuri:
+            stare = "la zi" if r.la_zi else "de reluat"
+            print(
+                f"sem {r.semestru} {r.fel:10} {stare:10} publicat={r.actualizat or '-'} "
+                f"ingestat={r.ingestat_la or '-'}\n    {r.url}"
+            )
+        ancore = list(s.scalars(select(AncoraSaptamana).order_by(AncoraSaptamana.inceput)))
+        if ancore:
+            print("\nancore de saptamana:")
+            for a in ancore:
+                print(f"  {a.inceput}  sapt {a.numar} ({a.paritate})")
+    return 0
+
+
 def _cmd_stats(_args: argparse.Namespace) -> int:
     from sqlalchemy import func, select
 
@@ -82,9 +336,19 @@ def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(prog="orar", description="Orarul Salilor (FMI)")
     p.add_argument("-v", "--verbose", action="store_true")
     sub = p.add_subparsers(dest="cmd", required=True)
+    #: Vocabularul de pornire, cand baza e goala.
+    ref = Path("tests/golden/date.json")
 
-    pl = sub.add_parser("load", help="incarca un JSON de orar in baza de date")
-    pl.add_argument("fisier", type=Path)
+    pl = sub.add_parser(
+        "load", help="incarca in baza un JSON de orar, sau un director de pagini capturate"
+    )
+    pl.add_argument("fisier", type=Path, help="fisier .json sau director cu PNG-uri")
+    pl.add_argument(
+        "--referinta",
+        type=Path,
+        default=Path("tests/golden/date.json"),
+        help="vocabular de pornire pentru OCR, cand baza e goala",
+    )
     pl.add_argument("--an", default="2025-2026")
     pl.add_argument("--semestru", type=int, default=2, choices=(1, 2))
     pl.add_argument(
@@ -100,6 +364,75 @@ def main(argv: list[str] | None = None) -> int:
 
     ps = sub.add_parser("stats", help="cate randuri sunt in baza")
     ps.set_defaults(func=_cmd_stats)
+
+    py = sub.add_parser(
+        "sincronizeaza", help="verifica pagina FMI si reia ingestul daca s-a schimbat orarul"
+    )
+    py.add_argument("--an", default="2025-2026")
+    py.add_argument(
+        "--semestru", type=int, choices=(1, 2), help="implicit: cel tinut la zi de facultate"
+    )
+    py.add_argument("-o", "--director", type=Path, default=Path("data/screenshots"))
+    py.add_argument("--forteaza", action="store_true", help="reia chiar daca nu s-a schimbat")
+    py.add_argument(
+        "--doar-verifica", action="store_true", help="spune ce s-ar face, fara sa captureze"
+    )
+    py.add_argument(
+        "--fara-crosscheck",
+        action="store_true",
+        help="nu mai captura si orarul profesorilor pentru verificare (~12 min in plus)",
+    )
+    py.set_defaults(func=_cmd_sincronizeaza)
+
+    pu = sub.add_parser("surse", help="ce orare cunoastem si daca sunt la zi")
+    pu.set_defaults(func=_cmd_surse)
+
+    pp = sub.add_parser(
+        "planuri", help="incarca creditele si forma de evaluare din planurile de invatamant"
+    )
+    pp.add_argument("director", type=Path, nargs="?", default=Path("data/planuri"))
+    pp.add_argument("--descarca", action="store_true", help="ia intai PDF-urile de pe Drive")
+    pp.set_defaults(func=_cmd_planuri)
+
+    px = sub.add_parser(
+        "crosscheck", help="compara baza cu orarul profesorilor (a doua sursa pentru aceleasi ore)"
+    )
+    px.add_argument(
+        "director", type=Path, nargs="?", default=Path("data/screenshots/sem2-profesori")
+    )
+    px.add_argument("--referinta", type=Path, default=ref)
+    px.add_argument(
+        "--completeaza",
+        action="store_true",
+        help="umple profesorii marcati nesigure, cand a doua sursa da un raspuns unic",
+    )
+    px.set_defaults(func=_cmd_crosscheck)
+
+    pc = sub.add_parser("captureaza", help="descarca paginile orarului din Google Drive")
+    pc.add_argument("url", help="linkul bit.ly de pe pagina FMI, sau linkul Drive")
+    pc.add_argument("-o", "--director", type=Path, default=Path("data/screenshots"))
+    pc.add_argument("--scala", type=int, default=4, help="device scale factor (implicit 4)")
+    pc.add_argument("--cu-fereastra", action="store_true", help="ruleaza browserul vizibil")
+    pc.add_argument("--limita", type=int, help="opreste-te dupa N pagini (proba rapida)")
+    pc.set_defaults(func=_cmd_captureaza)
+
+    pg = sub.add_parser("segmenteaza", help="detecteaza celulele dintr-o imagine de orar")
+    pg.add_argument("imagini", type=Path, nargs="+")
+    pg.set_defaults(func=_cmd_segmenteaza)
+
+    pci = sub.add_parser("citeste", help="segmenteaza + OCR pe una sau mai multe pagini")
+    pci.add_argument("imagini", type=Path, nargs="+")
+    pci.add_argument("--referinta", type=Path, default=ref, help="JSON pentru vocabular")
+    pci.add_argument("--fara-baza", action="store_true", help="ia vocabularul doar din JSON")
+    pci.set_defaults(func=_cmd_citeste)
+
+    pe = sub.add_parser("evalueaza", help="acuratetea OCR fata de setul de referinta")
+    # Implicit orarul *grupelor*: setul de referinta e al lor. Directorul cu orarul
+    # profesorilor n-are corespondent acolo si ar iesi 191 de "pagini nepotrivite".
+    pe.add_argument("director", type=Path, nargs="?", default=Path("data/screenshots/sem2-grupe"))
+    pe.add_argument("--referinta", type=Path, default=ref)
+    pe.add_argument("--fara-baza", action="store_true", help="ia vocabularul doar din JSON")
+    pe.set_defaults(func=_cmd_evalueaza)
 
     args = p.parse_args(argv)
     logging.basicConfig(

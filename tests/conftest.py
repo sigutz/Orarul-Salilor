@@ -88,3 +88,22 @@ def sesiune_neconsolidata(_engine, pagini_golden) -> Session:
     incarca_pagini(s, pagini_golden)
     s.commit()
     return s
+
+
+@pytest.fixture
+def client(db):
+    """Client HTTP legat de baza de test.
+
+    `dependency_overrides` inlocuieste `get_db` peste tot -- inclusiv pentru dependinta de
+    autentificare care ruleaza pe toata aplicatia -- deci si bara de sus vede aceleasi date
+    ca rutele, nu baza reala de pe disc.
+    """
+    from fastapi.testclient import TestClient
+
+    from orar.web import deps
+    from orar.web.app import app
+
+    app.dependency_overrides[deps.get_db] = lambda: db
+    with TestClient(app) as c:
+        yield c
+    app.dependency_overrides.clear()

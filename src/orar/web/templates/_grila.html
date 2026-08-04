@@ -34,7 +34,7 @@
               <a class="bloc tip-{{ b.clasa_tip }} prov-{{ b.provenienta.value }}{{ ' inactiv' if not b.activa }}"
                  style="grid-column: {{ b.col_start }} / span {{ b.col_span }}"
                  href="{% if mod == 'grupa' and o.sala %}/sala/{{ o.sala.slug }}{% else %}/grupa/{{ o.grupa.slug }}{% endif %}"
-                 title="{{ o.materie.nume if o.materie else '?' }}{% if o.tip_ora_materie %} ({{ o.tip_ora_materie }}){% endif %} · {{ '%02d:%02d'|format(o.ora_inceput.hour, o.ora_inceput.minute) }}–{{ '%02d:%02d'|format(o.ora_sfarsit.hour, o.ora_sfarsit.minute) }}{% if o.frecventa %} · {{ o.frecventa }}{% endif %}{% if o.saptamani %} · {{ o.saptamani }}{% endif %}{% if b.sursa %} · {{ b.sursa }}{% endif %}">
+                 title="{{ o.materie.denumire or o.materie.nume if o.materie else '?' }}{% if o.tip_ora_materie %} ({{ o.tip_ora_materie }}){% endif %} · {{ '%02d:%02d'|format(o.ora_inceput.hour, o.ora_inceput.minute) }}–{{ '%02d:%02d'|format(o.ora_sfarsit.hour, o.ora_sfarsit.minute) }}{% if o.frecventa %} · {{ o.frecventa }}{% endif %}{% if o.saptamani %} · {{ o.saptamani }}{% endif %}{% if o.materie and o.materie.credite %} · {{ o.materie.credite }} credite, {{ 'examen' if o.materie.forma_evaluare == 'E' else 'verificare' }}{% endif %}{% if b.sursa %} · {{ b.sursa }}{% endif %}">
 
                 <span class="bloc-sus">
                   <span class="bloc-materie">{{ o.materie.nume if o.materie else '—' }}</span>

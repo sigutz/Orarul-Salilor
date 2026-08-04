@@ -16,11 +16,13 @@ sunt in snake_case ca sa ramana idiomatice.
 
 from __future__ import annotations
 
-from datetime import time
+from datetime import date, datetime, time
 from typing import TYPE_CHECKING
 
 from sqlalchemy import (
     CheckConstraint,
+    Date,
+    DateTime,
     ForeignKey,
     Index,
     Integer,
@@ -101,9 +103,7 @@ class Grupa(Base):
     specializare: Mapped[str | None] = mapped_column("SPECIALIZARE", String(16), index=True)
     an_studiu: Mapped[int | None] = mapped_column("AN_STUDIU", Integer)
 
-    parinte: Mapped[Grupa | None] = relationship(
-        back_populates="copii", remote_side="Grupa.id"
-    )
+    parinte: Mapped[Grupa | None] = relationship(back_populates="copii", remote_side="Grupa.id")
     copii: Mapped[list[Grupa]] = relationship(
         back_populates="parinte", cascade="save-update, merge"
     )
@@ -154,6 +154,9 @@ class Materie(Base):
     nume: Mapped[str] = mapped_column("NUME", String(160), nullable=False)
     slug: Mapped[str] = mapped_column("SLUG", String(180), nullable=False, unique=True)
 
+    #: Denumirea intreaga din planul de invatamant ("Structuri de date"). `NUME` ramane
+    #: abrevierea din orar, care e cheia sub care apare disciplina peste tot.
+    denumire: Mapped[str | None] = mapped_column("DENUMIRE", String(200))
     credite: Mapped[int | None] = mapped_column("CREDITE", Integer)
     tip_materie: Mapped[str | None] = mapped_column("TIP_MATERIE", String(40))
     forma_evaluare: Mapped[str | None] = mapped_column("FORMA_EVALUARE", String(40))
@@ -216,6 +219,12 @@ class Ora(Base):
     # --- provenienta (adaugire) ---
     sursa_pagina: Mapped[str | None] = mapped_column("SURSA_PAGINA", String(60))
     confidence: Mapped[float | None] = mapped_column("CONFIDENCE")
+    #: "x0,y0,x1,y1" in imaginea `SURSA_PAGINA`. Fara el, coada de verificare ar arata
+    #: valorile propuse fara nimic cu care sa le compari -- adica ar cere sa ai incredere
+    #: exact acolo unde am spus ca nu avem.
+    sursa_bbox: Mapped[str | None] = mapped_column("SURSA_BBOX", String(40))
+    #: Campurile pe care lexiconul nu le-a putut confirma, separate prin virgula.
+    campuri_nesigure: Mapped[str | None] = mapped_column("CAMPURI_NESIGURE", String(60))
 
     profesor: Mapped[Profesor | None] = relationship(back_populates="ore")
     materie: Mapped[Materie | None] = relationship(back_populates="ore")
@@ -296,3 +305,72 @@ class UserOptional(Base):
     grupa_id: Mapped[int] = mapped_column(
         "ID_GRUPA", ForeignKey("GRUPA.ID_GRUPA", ondelete="CASCADE"), primary_key=True
     )
+
+
+class SursaOrar(Base):
+    """Ce a publicat facultatea si cand am ingestat-o noi.
+
+    Adaugire operationala, in afara schemei cerute. Fara ea, watcher-ul nu are cu ce compara
+    si ar trebui sa reia ingestul (~6 minute de captura) la fiecare verificare. Tinem starea
+    **per sursa** -- semestru x fel -- fiindca pagina publica patru orare independente, cu
+    date de actualizare proprii; un singur `state.json` global le-ar amesteca.
+
+    Bonus vizibil in interfata: `ACTUALIZAT` e data pe care o anunta chiar facultatea, deci
+    se poate arata "orar actualizat 26.04.2026" fara sa inventam nimic.
+    """
+
+    __tablename__ = "SURSA_ORAR"
+
+    id: Mapped[int] = mapped_column("ID_SURSA", Integer, primary_key=True)
+    an_univ: Mapped[str] = mapped_column("AN_UNIV", String(9), nullable=False)
+    semestru: Mapped[int] = mapped_column("SEMESTRU", Integer, nullable=False)
+    #: grupe | profesori
+    fel: Mapped[str] = mapped_column("FEL", String(12), nullable=False)
+    url: Mapped[str] = mapped_column("URL", String(255), nullable=False)
+    #: Data anuntata pe pagina FMI ("actualizat 26.04.2026, ora 19:30").
+    actualizat: Mapped[datetime | None] = mapped_column("ACTUALIZAT", DateTime)
+    #: Cand am citit ultima oara pagina.
+    verificat_la: Mapped[datetime | None] = mapped_column("VERIFICAT_LA", DateTime)
+    #: `ACTUALIZAT` de la ultimul ingest reusit. Egal cu `ACTUALIZAT` => suntem la zi.
+    ingestat_la: Mapped[datetime | None] = mapped_column("INGESTAT_LA", DateTime)
+
+    __table_args__ = (
+        UniqueConstraint("AN_UNIV", "SEMESTRU", "FEL", name="uq_sursa"),
+        CheckConstraint("FEL IN ('grupe','profesori')", name="ck_sursa_fel"),
+        CheckConstraint("SEMESTRU IN (1,2)", name="ck_sursa_semestru"),
+    )
+
+    @property
+    def la_zi(self) -> bool:
+        return self.actualizat is not None and self.actualizat == self.ingestat_la
+
+    def __repr__(self) -> str:
+        return f"<SursaOrar sem{self.semestru} {self.fel!r}>"
+
+
+class AncoraSaptamana(Base):
+    """Corespondenta publicata intre o saptamana calendaristica si numarul ei academic.
+
+    Adaugire operationala. Numerotarea FMI sare peste vacante, deci nu se poate calcula
+    dintr-o singura ancora (vezi `domain/weeks.py`); pastram toate ancorele anuntate, iar
+    watcher-ul le reimprospateaza la fiecare verificare.
+    """
+
+    __tablename__ = "ANCORA_SAPTAMANA"
+
+    id: Mapped[int] = mapped_column("ID_ANCORA", Integer, primary_key=True)
+    an_univ: Mapped[str] = mapped_column("AN_UNIV", String(9), nullable=False)
+    semestru: Mapped[int] = mapped_column("SEMESTRU", Integer, nullable=False)
+    #: Lunea saptamanii.
+    inceput: Mapped[date] = mapped_column("INCEPUT", Date, nullable=False)
+    numar: Mapped[int] = mapped_column("NUMAR", Integer, nullable=False)
+    #: SI | SP
+    paritate: Mapped[str] = mapped_column("PARITATE", String(2), nullable=False)
+
+    __table_args__ = (
+        UniqueConstraint("AN_UNIV", "SEMESTRU", "INCEPUT", name="uq_ancora"),
+        CheckConstraint("PARITATE IN ('SI','SP')", name="ck_ancora_paritate"),
+    )
+
+    def __repr__(self) -> str:
+        return f"<AncoraSaptamana {self.inceput} sapt {self.numar}>"

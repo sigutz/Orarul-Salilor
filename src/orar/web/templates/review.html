@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block titlu %}Verificare extragere{% endblock %}
+
+{% block continut %}
+<section class="antet">
+  <nav class="firimituri"><a href="/">acasă</a><span>›</span><strong>verificare</strong></nav>
+
+  <h1>Coadă de verificare</h1>
+
+  <div class="sumar">
+    <span class="fapt"><strong>{{ total_nesigure }}</strong> cu câmpuri nerecunoscute</span>
+    <span class="fapt"><strong>{{ total_cu_provenienta }}</strong> activități extrase automat</span>
+    <span class="fapt">prag încredere &lt; {{ "%.2f"|format(prag) }}</span>
+  </div>
+
+  <p class="nota">
+    Fiecare rând arată <strong>decupajul real al celulei</strong> lângă ce am citit din ea.
+    Câmpurile marcate sunt cele pe care vocabularul nu le-a putut confirma — acolo valoarea
+    afișată e textul brut, nu un termen verificat.
+  </p>
+
+  {% if director_lipsa %}
+    <p class="avertisment">
+      Capturile nu sunt pe disc, deci decupajele nu se pot afișa.
+      Rulează <code>orar captureaza …</code> ca să le refaci.
+    </p>
+  {% endif %}
+</section>
+
+{% if not ore %}
+  <p class="gol">Nimic de verificat: fiecare câmp extras s-a potrivit cu vocabularul.</p>
+{% else %}
+<div class="coada">
+  {% for o in ore %}
+    <article class="revizuire {% if o.campuri_nesigure %}atentie{% endif %}">
+      <img class="decupaj" src="/admin/decupaj/{{ o.id }}" alt="celula din {{ o.sursa_pagina }}" loading="lazy">
+      <dl class="citit">
+        <div><dt>materie</dt><dd class="{{ 'nesigur' if 'materie' in (o.campuri_nesigure or '') }}">{{ o.materie.nume if o.materie else "—" }}</dd></div>
+        <div><dt>profesor</dt><dd class="{{ 'nesigur' if 'profesor' in (o.campuri_nesigure or '') }}">{{ o.profesor.nume if o.profesor else "—" }}</dd></div>
+        <div><dt>sală</dt><dd>{{ o.sala.nume if o.sala else "—" }}</dd></div>
+        <div><dt>tip</dt><dd>{{ o.tip_ora_materie or "—" }}</dd></div>
+        <div><dt>când</dt><dd>{{ o.zi_saptamana }} {{ "%02d"|format(o.ora_inceput.hour) }}–{{ "%02d"|format(o.ora_sfarsit.hour) }}
+          {%- if o.frecventa %} · {{ o.frecventa }}{% endif %}
+          {%- if o.saptamani %} · {{ o.saptamani }}{% endif %}</dd></div>
+        <div><dt>grupă</dt><dd><a href="/grupa/{{ o.grupa.slug }}">{{ o.grupa.nume }}</a>
+          {%- if o.semigrupa %} · {{ o.semigrupa }}{% endif %}</dd></div>
+      </dl>
+      <div class="provenienta">
+        <span class="incredere" title="cea mai mică încredere dintre câmpurile citite">{{ "%.2f"|format(o.confidence or 0) }}</span>
+        <span class="sursa">{{ o.sursa_pagina }}</span>
+      </div>
+    </article>
+  {% endfor %}
+</div>
+{% endif %}
+{% endblock %}
